@@ -1,9 +1,31 @@
-enum ERoutes {}
+export enum ERoutes {
+  MAIN = 'MAIN',
+  UPGRADES = 'UPGRADES',
+  PRESTIGE = 'PRESTIGE',
+  SETTINGS = 'SETTINGS',
+  ABOUT = 'ABOUT',
+}
 
-export enum ERoutesIds {}
+enum ERoutesParts {
+  MAIN = 'main',
+  UPGRADES = 'upgrades',
+  PRESTIGE = 'prestige',
+  SETTINGS = 'settings',
+  ABOUT = 'about',
+}
 
-enum ERoutesParts {}
+export const EPartialRoutes: Record<ERoutes, string> = {
+  MAIN: ERoutesParts.MAIN,
+  UPGRADES: ERoutesParts.UPGRADES,
+  PRESTIGE: ERoutesParts.PRESTIGE,
+  SETTINGS: ERoutesParts.SETTINGS,
+  ABOUT: ERoutesParts.ABOUT,
+};
 
-export const EPartialRoutes: Record<ERoutes, string> = {};
-
-export const EFullRoutes: Record<ERoutes, any> = {};
+export const EFullRoutes: Record<ERoutes, string[]> = {
+  MAIN: ['/', ERoutesParts.MAIN],
+  UPGRADES: ['/', ERoutesParts.UPGRADES],
+  PRESTIGE: ['/', ERoutesParts.PRESTIGE],
+  SETTINGS: ['/', ERoutesParts.SETTINGS],
+  ABOUT: ['/', ERoutesParts.ABOUT],
+};
