@@ -1,0 +1,15 @@
+<div class="sidebar">
+  @for (button of buttons; track button) {
+    <button
+      class="sidebar__button"
+      [class.selected]="(EFullRoutes[button.routePath] | appJoin) === url()"
+      [routerLink]="EFullRoutes[button.routePath]"
+    >
+      <svg-icon
+        class="sidebar__button__icon"
+        [src]="button.iconPath"
+      ></svg-icon>
+      <p class="sidebar__button__text f-big">{{ button.title }}</p>
+    </button>
+  }
+</div>
