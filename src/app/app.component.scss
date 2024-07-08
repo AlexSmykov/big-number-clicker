@@ -1,0 +1,11 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+
+  .main-place {
+    height: 100vh;
+    width: calc(100vw - 100px);
+
+    background: var(--dark);
+  }
+}
