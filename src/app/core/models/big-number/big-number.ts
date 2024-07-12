@@ -11,6 +11,10 @@ export class BigNumber {
     this.updateDegree();
   }
 
+  copy(): BigNumber {
+    return new BigNumber(this.currentValue, this.depth);
+  }
+
   updateDegree(): void {
     if (this.currentValue === 0 && this.depth !== 0) {
       this.depth = 0;
