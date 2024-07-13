@@ -1,0 +1,17 @@
+@if (resource(); as resource) {
+  <div class="resource flex-row" [tp]="resourceTooltipTemplate">
+    <svg-icon
+      class="resource-icon"
+      [src]="resource.iconPath"
+      [style.color]="'var(' + resource.iconColor + ')'"
+    ></svg-icon>
+    <p class="resource-value">{{ resource.value.toString() }}</p>
+  </div>
+
+  <ng-template #resourceTooltipTemplate let-hide>
+    <div>
+      <h2 class="tooltip-header f-big">{{ resource.name }}</h2>
+      <p class="tooltip-description f-normal">{{ resource.description }}</p>
+    </div>
+  </ng-template>
+}
