@@ -1,6 +1,11 @@
+@import "tippy.js/dist/tippy.css";
+@import "tippy.js/themes/light.css";
+@import "tippy.js/animations/scale.css";
+
 @import "styles/colors";
 @import "styles/icons";
 @import "styles/font";
+@import "styles/flex";
 
 body {
   margin: 0;

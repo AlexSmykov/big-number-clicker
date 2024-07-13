@@ -1,0 +1,20 @@
+.resource {
+  width: 150px;
+  height: 24px;
+
+  .resource-icon {
+    height: 100%;
+  }
+
+  .resource-value {
+    height: 100%;
+    flex: 1;
+    text-align: start;
+
+    color: var(--light);
+  }
+}
+
+.tooltip-header {
+  margin-bottom: 8px;
+}

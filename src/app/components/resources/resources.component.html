@@ -1,0 +1,9 @@
+<div class="resources-wrapper flex-row">
+  <div class="resources flex-row">
+    @if (resources$ | async; as resources) {
+      @for (resource of resources; track resource) {
+        <app-resource [resource]="resource"></app-resource>
+      }
+    }
+  </div>
+</div>
