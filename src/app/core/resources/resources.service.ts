@@ -25,7 +25,17 @@ export class ResourcesService {
     );
 
     if (foundValue) {
-      this._resource$.next(JSON.parse(foundValue) as TResources);
+      const parsedJson = JSON.parse(foundValue) as Record<
+        keyof typeof EResources,
+        { currentValue: number; depth: number }
+      >;
+      this._resource$.next(
+        Object.fromEntries(
+          Object.entries(parsedJson).map(([key, value]) => {
+            return [key, new BigNumber(value.currentValue, value.depth)];
+          })
+        ) as TResources
+      );
     }
   }
 
@@ -38,6 +48,10 @@ export class ResourcesService {
 
   getResource$(resourceKey: EResources): Observable<BigNumber> {
     return this._resource$.pipe(map((resources) => resources[resourceKey]));
+  }
+
+  getAllResources$(): Observable<TResources> {
+    return this._resource$.asObservable();
   }
 
   setResource(value: BigNumber, resourceKey: EResources) {
