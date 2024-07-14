@@ -6,6 +6,8 @@ import { RESOURCES_CONFIG } from 'src/app/core/resources/resources.const';
 import { EResources } from 'src/app/core/resources/resources.enum';
 import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
+import { parseLoadedValue } from 'src/app/core/utils/core.utils';
+import { TSavedValue } from 'src/app/core/interfaces/core.interface';
 
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
@@ -25,16 +27,8 @@ export class ResourcesService {
     );
 
     if (foundValue) {
-      const parsedJson = JSON.parse(foundValue) as Record<
-        keyof typeof EResources,
-        { currentValue: number; depth: number }
-      >;
       this._resource$.next(
-        Object.fromEntries(
-          Object.entries(parsedJson).map(([key, value]) => {
-            return [key, new BigNumber(value.currentValue, value.depth)];
-          })
-        ) as TResources
+        parseLoadedValue(JSON.parse(foundValue) as TSavedValue<TResources>)
       );
     }
   }

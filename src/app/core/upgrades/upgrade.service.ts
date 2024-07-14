@@ -5,6 +5,8 @@ import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
 import { TUpgrade, TUpgrades } from 'src/app/core/upgrades/upgrade.interface';
 import { UPGRADES_CONFIG } from 'src/app/core/upgrades/upgrade.const';
 import { EUpgrades } from 'src/app/core/upgrades/upgrade.enum';
+import { parseLoadedValue } from 'src/app/core/utils/core.utils';
+import { TSavedValue } from 'src/app/core/interfaces/core.interface';
 
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
@@ -18,11 +20,13 @@ export class UpgradeService {
 
   private loadUpgrades(): void {
     const foundValue = this.localStorageService.getItem(
-      EStorageKeys.RESOURCES_STORAGE_ID
+      EStorageKeys.UPGRADES_STORAGE_ID
     );
 
     if (foundValue) {
-      this._upgrades$.next(JSON.parse(foundValue) as TUpgrades);
+      this._upgrades$.next(
+        parseLoadedValue(JSON.parse(foundValue) as TSavedValue<TUpgrades>)
+      );
     }
   }
 
