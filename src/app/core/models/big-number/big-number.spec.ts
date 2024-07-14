@@ -1,6 +1,6 @@
-import { BigNumber } from 'src/app/core/models/big-number/big-number';
+import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 
-describe('BigNumber Model', (): void => {
+describe('BigNumberModel Model', (): void => {
   it('Creation', (): void => {
     expect(new BigNumber()).toBeInstanceOf(BigNumber);
   });

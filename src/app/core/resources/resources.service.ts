@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BigNumber } from 'src/app/core/models/big-number/big-number';
+import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 import { TResources } from 'src/app/core/resources/resources.interface';
 import { RESOURCES_CONFIG } from 'src/app/core/resources/resources.const';
 import { EResources } from 'src/app/core/resources/resources.enum';

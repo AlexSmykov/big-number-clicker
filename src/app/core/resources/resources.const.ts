@@ -1,6 +1,6 @@
 import { TResources } from 'src/app/core/resources/resources.interface';
 import { EResources } from 'src/app/core/resources/resources.enum';
-import { BigNumber } from 'src/app/core/models/big-number/big-number';
+import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 
 export const RESOURCES_CONFIG: TResources = {
   [EResources.MONEY]: new BigNumber(),
