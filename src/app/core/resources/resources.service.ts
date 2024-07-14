@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
 
-import { BigNumber } from 'src/app/core/models/big-number/big-number';
+import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 import { TResources } from 'src/app/core/resources/resources.interface';
-import { RESOURCES_CONFIG } from 'src/app/core/resources/resources.const';
+import { RESOURCES_START_CONFIG } from 'src/app/core/resources/resources.const';
 import { EResources } from 'src/app/core/resources/resources.enum';
 import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
+import { parseLoadedValue } from 'src/app/core/utils/core.utils';
+import { TSavedValue } from 'src/app/core/interfaces/core.interface';
 
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ResourcesService {
   private readonly _resource$ = new BehaviorSubject<TResources>(
-    RESOURCES_CONFIG
+    RESOURCES_START_CONFIG
   );
+
+  private isHasSavedValue = false;
 
   constructor(private localStorageService: LocalStorageService) {
     this.loadResources();
@@ -24,26 +28,28 @@ export class ResourcesService {
       EStorageKeys.RESOURCES_STORAGE_ID
     );
 
-    if (foundValue) {
-      const parsedJson = JSON.parse(foundValue) as Record<
-        keyof typeof EResources,
-        { currentValue: number; depth: number }
-      >;
+    if (
+      foundValue &&
+      Object.keys(JSON.parse(foundValue)).length ===
+        Object.keys(RESOURCES_START_CONFIG).length
+    ) {
+      this.isHasSavedValue = true;
       this._resource$.next(
-        Object.fromEntries(
-          Object.entries(parsedJson).map(([key, value]) => {
-            return [key, new BigNumber(value.currentValue, value.depth)];
-          })
-        ) as TResources
+        parseLoadedValue(JSON.parse(foundValue) as TSavedValue<TResources>)
       );
     }
   }
 
   saveResources(): void {
-    this.localStorageService.setItem(
-      EStorageKeys.RESOURCES_STORAGE_ID,
-      JSON.stringify(this._resource$.getValue())
-    );
+    if (
+      this.isHasSavedValue ===
+      this.localStorageService.checkItem(EStorageKeys.RESOURCES_STORAGE_ID)
+    ) {
+      this.localStorageService.setItem(
+        EStorageKeys.RESOURCES_STORAGE_ID,
+        JSON.stringify(this._resource$.getValue())
+      );
+    }
   }
 
   getResource$(resourceKey: EResources): Observable<BigNumber> {

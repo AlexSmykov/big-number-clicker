@@ -3,7 +3,7 @@ import {
   EUpgrades,
   EUpgradeType,
 } from 'src/app/core/upgrades/upgrade.enum';
-import { BigNumber } from 'src/app/core/models/big-number/big-number';
+import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 import { EResources } from 'src/app/core/resources/resources.enum';
 
 export type TUpgrades = Record<EUpgrades, TUpgrade>;
