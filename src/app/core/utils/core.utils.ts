@@ -14,3 +14,12 @@ export function parseLoadedValue<T>(value: TSavedValue<T>): T {
     })
   ) as T;
 }
+
+/**
+ * Getting chance  and return if chance roll is success
+ *
+ * @param chance value in range 0-10000
+ */
+export function rollChance(chance: number): boolean {
+  return Math.random() * 10000 <= chance;
+}
