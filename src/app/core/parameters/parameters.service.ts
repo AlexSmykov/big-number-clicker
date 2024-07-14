@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
-import { START_PARAMETERS } from 'src/app/core/parameters/parameters.const';
+import { PARAMETERS_START_CONFIG } from 'src/app/core/parameters/parameters.const';
 import { TParameters } from 'src/app/core/parameters/parameters.interface';
 import { TSavedValue } from 'src/app/core/interfaces/core.interface';
 import { parseLoadedValue } from 'src/app/core/utils/core.utils';
@@ -12,8 +12,10 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ParametersService {
   private readonly _parameters$ = new BehaviorSubject<TParameters>(
-    START_PARAMETERS
+    PARAMETERS_START_CONFIG
   );
+
+  private isHasSavedValue = false;
 
   constructor(private localStorageService: LocalStorageService) {
     this.loadParameters();
@@ -24,7 +26,12 @@ export class ParametersService {
       EStorageKeys.PARAMETERS_STORAGE_ID
     );
 
-    if (foundValue) {
+    if (
+      foundValue &&
+      Object.keys(JSON.parse(foundValue)).length ===
+        Object.keys(PARAMETERS_START_CONFIG).length
+    ) {
+      this.isHasSavedValue = true;
       this._parameters$.next(
         parseLoadedValue(JSON.parse(foundValue) as TSavedValue<TParameters>)
       );
@@ -32,10 +39,15 @@ export class ParametersService {
   }
 
   saveParameters(): void {
-    this.localStorageService.setItem(
-      EStorageKeys.PARAMETERS_STORAGE_ID,
-      JSON.stringify(this._parameters$.getValue())
-    );
+    if (
+      this.isHasSavedValue ===
+      this.localStorageService.checkItem(EStorageKeys.PARAMETERS_STORAGE_ID)
+    ) {
+      this.localStorageService.setItem(
+        EStorageKeys.PARAMETERS_STORAGE_ID,
+        JSON.stringify(this._parameters$.getValue())
+      );
+    }
   }
 
   getParameter$(

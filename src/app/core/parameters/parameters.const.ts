@@ -1,7 +1,7 @@
 import { TParameters } from 'src/app/core/parameters/parameters.interface';
 import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 
-export const START_PARAMETERS: TParameters = {
+export const PARAMETERS_START_CONFIG: TParameters = {
   baseRate: new BigNumber(1),
   simpleMultiplier: new BigNumber(1),
   simpleMultiplierCoefficient: new BigNumber(1.5),

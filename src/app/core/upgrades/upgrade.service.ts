@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
 import { TUpgrade, TUpgrades } from 'src/app/core/upgrades/upgrade.interface';
-import { UPGRADES_CONFIG } from 'src/app/core/upgrades/upgrade.const';
+import { UPGRADES_START_CONFIG } from 'src/app/core/upgrades/upgrade.const';
 import { EUpgrades } from 'src/app/core/upgrades/upgrade.enum';
 import { parseLoadedValue } from 'src/app/core/utils/core.utils';
 import { TSavedValue } from 'src/app/core/interfaces/core.interface';
@@ -12,7 +12,11 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UpgradeService {
-  private readonly _upgrades$ = new BehaviorSubject<TUpgrades>(UPGRADES_CONFIG);
+  private readonly _upgrades$ = new BehaviorSubject<TUpgrades>(
+    UPGRADES_START_CONFIG
+  );
+
+  private isHasSavedValue = false;
 
   constructor(private localStorageService: LocalStorageService) {
     this.loadUpgrades();
@@ -23,7 +27,12 @@ export class UpgradeService {
       EStorageKeys.UPGRADES_STORAGE_ID
     );
 
-    if (foundValue) {
+    if (
+      foundValue &&
+      Object.keys(JSON.parse(foundValue)).length ===
+        Object.keys(UPGRADES_START_CONFIG).length
+    ) {
+      this.isHasSavedValue = true;
       this._upgrades$.next(
         parseLoadedValue(JSON.parse(foundValue) as TSavedValue<TUpgrades>)
       );
@@ -31,10 +40,15 @@ export class UpgradeService {
   }
 
   saveUpgrades(): void {
-    this.localStorageService.setItem(
-      EStorageKeys.UPGRADES_STORAGE_ID,
-      JSON.stringify(this._upgrades$.getValue())
-    );
+    if (
+      this.isHasSavedValue ===
+      this.localStorageService.checkItem(EStorageKeys.UPGRADES_STORAGE_ID)
+    ) {
+      this.localStorageService.setItem(
+        EStorageKeys.UPGRADES_STORAGE_ID,
+        JSON.stringify(this._upgrades$.getValue())
+      );
+    }
   }
 
   getUpgrades$(upgradeKey: EUpgrades): Observable<TUpgrade> {

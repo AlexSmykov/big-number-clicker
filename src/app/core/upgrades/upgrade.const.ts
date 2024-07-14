@@ -36,4 +36,4 @@ export const UPGRADE_COST_GROW_FORMULAS: Record<
   },
 };
 
-export const UPGRADES_CONFIG: Record<EUpgrades, TUpgrade> = {};
+export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {};
