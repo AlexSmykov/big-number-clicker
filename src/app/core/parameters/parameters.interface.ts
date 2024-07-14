@@ -12,5 +12,7 @@ export type TParameters = {
   crystalChanceIncrease: number;
   crystalMultiplier: BigNumber;
   crystalMultiplierCoefficient: BigNumber;
+  rubyChance: number;
   logMultiplierBase: number;
+  clickButtonText: string;
 };

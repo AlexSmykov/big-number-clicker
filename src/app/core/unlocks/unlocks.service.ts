@@ -55,6 +55,10 @@ export class UnlocksService {
     return this._unlocks$.pipe(map((unlocks) => unlocks[unlockKey]));
   }
 
+  getAllUnlocks$(): Observable<TUnlocks> {
+    return this._unlocks$.asObservable();
+  }
+
   setLock(value: boolean, unlockKey: EUnlocks) {
     const unlocks = this._unlocks$.getValue();
     unlocks[unlockKey] = value;

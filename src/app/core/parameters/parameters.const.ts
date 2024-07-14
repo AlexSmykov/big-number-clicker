@@ -11,7 +11,9 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   simplePowerCoefficientIncrease: new BigNumber(1.5),
   crystalChance: 100,
   crystalChanceIncrease: 10,
-  crystalMultiplier: new BigNumber(2),
+  crystalMultiplier: new BigNumber(1),
   crystalMultiplierCoefficient: new BigNumber(2),
+  rubyChance: 10,
   logMultiplierBase: 10000,
+  clickButtonText: 'Click me!',
 };

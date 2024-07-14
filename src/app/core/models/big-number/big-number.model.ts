@@ -5,8 +5,8 @@ export class BigNumber {
   currentValue: number;
 
   constructor(initValue: number = 0, degreeDepth: number = 0) {
-    this.currentValue = initValue;
-    this.depth = degreeDepth;
+    this.currentValue = initValue ?? 0;
+    this.depth = degreeDepth ?? 0;
 
     this.updateDegree();
   }
