@@ -1,0 +1,17 @@
+.upgrades-wrapper {
+  height: 100vh;
+  gap: 0;
+
+  .upgrades {
+    padding: 30px;
+    overflow-y: auto;
+
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    .upgrade {
+      width: calc(33% - 30px);
+    }
+  }
+}

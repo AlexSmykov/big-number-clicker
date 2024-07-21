@@ -1,3 +1,133 @@
-<section class="flex-column">
+<section class="upgrades-wrapper flex-column">
   <app-resources></app-resources>
+  <div class="upgrades flex-row">
+    @if (unlocks(); as unlocks) {
+      @if (upgrades$ | async; as upgrades) {
+        <app-upgrade
+          class="upgrade"
+          [upgrade]="upgrades[EUpgrades.SIMPLE_MULTIPLIER]"
+          [tooltipText]="upgrades[EUpgrades.SIMPLE_MULTIPLIER].tooltip"
+          (buy)="buyUpgrade(EUpgrades.SIMPLE_MULTIPLIER)"
+        ></app-upgrade>
+
+        @if (upgrades[EUpgrades.UNLOCK_CRYSTALS]; as upgrade) {
+          @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+            <app-upgrade
+              class="upgrade"
+              [upgrade]="upgrades[EUpgrades.UNLOCK_CRYSTALS]"
+              [tooltipText]="upgrades[EUpgrades.UNLOCK_CRYSTALS].tooltip"
+              (buy)="buyUpgrade(EUpgrades.UNLOCK_CRYSTALS)"
+            ></app-upgrade>
+          }
+        }
+
+        <app-upgrade
+          class="upgrade"
+          [upgrade]="upgrades[EUpgrades.SIMPLE_MULTIPLIER_BOOST]"
+          [tooltipText]="upgrades[EUpgrades.SIMPLE_MULTIPLIER_BOOST].tooltip"
+          (buy)="buyUpgrade(EUpgrades.SIMPLE_MULTIPLIER_BOOST)"
+        ></app-upgrade>
+
+        @if (unlocks.CRYSTALS) {
+          <app-upgrade
+            class="upgrade"
+            [upgrade]="upgrades[EUpgrades.CRYSTAL_MULTIPLIER]"
+            [tooltipText]="upgrades[EUpgrades.CRYSTAL_MULTIPLIER].tooltip"
+            (buy)="buyUpgrade(EUpgrades.CRYSTAL_MULTIPLIER)"
+          ></app-upgrade>
+
+          <app-upgrade
+            class="upgrade"
+            [upgrade]="upgrades[EUpgrades.CRYSTAL_CHANCE]"
+            [tooltipText]="upgrades[EUpgrades.CRYSTAL_CHANCE].tooltip"
+            (buy)="buyUpgrade(EUpgrades.CRYSTAL_CHANCE)"
+          ></app-upgrade>
+
+          @if (upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT]; as upgrade) {
+            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+              <app-upgrade
+                class="upgrade"
+                [upgrade]="upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT]"
+                [tooltipText]="
+                  upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT].tooltip
+                "
+                (buy)="buyUpgrade(EUpgrades.UNLOCK_SETTINGS_AND_ABOUT)"
+              ></app-upgrade>
+            }
+          }
+
+          @if (upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER]; as upgrade) {
+            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+              <app-upgrade
+                class="upgrade"
+                [upgrade]="upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER]"
+                [tooltipText]="
+                  upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER].tooltip
+                "
+                (buy)="buyUpgrade(EUpgrades.UNLOCK_LOG_MULTIPLIER)"
+              ></app-upgrade>
+            }
+          }
+
+          @if (upgrades[EUpgrades.UNLOCK_PRESTIGE]; as upgrade) {
+            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+              <app-upgrade
+                class="upgrade"
+                [upgrade]="upgrades[EUpgrades.UNLOCK_PRESTIGE]"
+                [tooltipText]="upgrades[EUpgrades.UNLOCK_PRESTIGE].tooltip"
+                (buy)="buyUpgrade(EUpgrades.UNLOCK_PRESTIGE)"
+              ></app-upgrade>
+            }
+          }
+        }
+
+        @if (unlocks.LOG_MULTIPLIER) {
+          <app-upgrade
+            class="upgrade"
+            [upgrade]="upgrades[EUpgrades.LOG_MULTIPLIER_BASE]"
+            [tooltipText]="upgrades[EUpgrades.LOG_MULTIPLIER_BASE].tooltip"
+            (buy)="buyUpgrade(EUpgrades.LOG_MULTIPLIER_BASE)"
+          ></app-upgrade>
+
+          <app-upgrade
+            class="upgrade"
+            [upgrade]="upgrades[EUpgrades.LOG_MULTIPLIER_POWER]"
+            [tooltipText]="upgrades[EUpgrades.LOG_MULTIPLIER_POWER].tooltip"
+            (buy)="buyUpgrade(EUpgrades.LOG_MULTIPLIER_POWER)"
+          ></app-upgrade>
+        }
+
+        @if (unlocks.MORE_UPGRADES_1) {
+          <app-upgrade
+            class="upgrade"
+            [upgrade]="upgrades[EUpgrades.CRYSTAL_CHANCE_BY_MONEY]"
+            [tooltipText]="upgrades[EUpgrades.CRYSTAL_CHANCE_BY_MONEY].tooltip"
+            (buy)="buyUpgrade(EUpgrades.CRYSTAL_CHANCE_BY_MONEY)"
+          ></app-upgrade>
+
+          @if (upgrades[EUpgrades.FLAT_BONUS]; as upgrade) {
+            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+              <app-upgrade
+                class="upgrade"
+                [upgrade]="upgrades[EUpgrades.FLAT_BONUS]"
+                [tooltipText]="upgrades[EUpgrades.FLAT_BONUS].tooltip"
+                (buy)="buyUpgrade(EUpgrades.FLAT_BONUS)"
+              ></app-upgrade>
+            }
+          }
+
+          @if (upgrades[EUpgrades.UNLOCK_RUBIES]; as upgrade) {
+            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+              <app-upgrade
+                class="upgrade"
+                [upgrade]="upgrades[EUpgrades.UNLOCK_RUBIES]"
+                [tooltipText]="upgrades[EUpgrades.UNLOCK_RUBIES].tooltip"
+                (buy)="buyUpgrade(EUpgrades.UNLOCK_RUBIES)"
+              ></app-upgrade>
+            }
+          }
+        }
+      }
+    }
+  </div>
 </section>
