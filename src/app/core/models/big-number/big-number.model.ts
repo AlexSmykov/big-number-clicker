@@ -15,7 +15,7 @@ export class BigNumber {
     return new BigNumber(this.currentValue, this.depth);
   }
 
-  updateDegree(): void {
+  private updateDegree(): void {
     if (this.currentValue === 0 && this.depth !== 0) {
       this.depth = 0;
     }
@@ -38,22 +38,22 @@ export class BigNumber {
     }
   }
 
-  plus(anotherNumber: BigNumber | number): void {
+  plus(anotherNumber: BigNumber | number): BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
 
     if (anotherNumber.currentValue === 0) {
-      return;
+      return this;
     }
 
     const depthDiff = this.depth - anotherNumber.depth;
 
     if (depthDiff > 1) {
-      return;
+      return this;
     } else if (depthDiff === 1) {
       if (anotherNumber.depth > 1) {
-        return;
+        return this;
       }
 
       const logAnother = Math.log10(anotherNumber.currentValue);
@@ -63,7 +63,7 @@ export class BigNumber {
       }
     } else if (depthDiff === 0) {
       if (anotherNumber.depth > 1) {
-        return;
+        return this;
       }
 
       if (this.depth === 1) {
@@ -83,7 +83,7 @@ export class BigNumber {
       }
     } else if (depthDiff === -1) {
       if (this.depth > 1) {
-        return;
+        return this;
       }
 
       const logThis = Math.log10(this.currentValue);
@@ -102,24 +102,26 @@ export class BigNumber {
     }
 
     this.updateDegree();
+
+    return this;
   }
 
-  minus(anotherNumber: BigNumber | number): void {
+  minus(anotherNumber: BigNumber | number): BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
 
     if (anotherNumber.currentValue === 0) {
-      return;
+      return this;
     }
 
     const depthDiff = this.depth - anotherNumber.depth;
 
     if (depthDiff > 1) {
-      return;
+      return this;
     } else if (depthDiff === 1) {
       if (anotherNumber.depth > 1) {
-        return;
+        return this;
       }
 
       const logAnother = Math.log10(anotherNumber.currentValue);
@@ -132,11 +134,11 @@ export class BigNumber {
         this.currentValue = 0;
         this.depth = 0;
 
-        return;
+        return this;
       }
 
       if (anotherNumber.depth > 1) {
-        return;
+        return this;
       }
 
       if (this.depth === 1) {
@@ -153,13 +155,15 @@ export class BigNumber {
       this.currentValue = 0;
       this.depth = 0;
 
-      return;
+      return this;
     }
 
     this.updateDegree();
+
+    return this;
   }
 
-  multiply(anotherNumber: BigNumber | number): void {
+  multiply(anotherNumber: BigNumber | number): BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
@@ -187,9 +191,11 @@ export class BigNumber {
     }
 
     this.updateDegree();
+
+    return this;
   }
 
-  divide(anotherNumber: BigNumber | number): void {
+  divide(anotherNumber: BigNumber | number): BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
@@ -212,7 +218,7 @@ export class BigNumber {
           this.currentValue = 0;
           this.depth = 0;
 
-          return;
+          return this;
         }
 
         this.currentValue /= Math.pow(10, anotherNumber.currentValue);
@@ -227,9 +233,11 @@ export class BigNumber {
     }
 
     this.updateDegree();
+
+    return this;
   }
 
-  pow(anotherNumber: BigNumber | number): void {
+  pow(anotherNumber: BigNumber | number): BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
@@ -240,9 +248,11 @@ export class BigNumber {
     this.depth = newNumber.depth + 1;
 
     this.updateDegree();
+
+    return this;
   }
 
-  root(anotherNumber: BigNumber | number): void {
+  root(anotherNumber: BigNumber | number): BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
@@ -255,7 +265,7 @@ export class BigNumber {
       this.currentValue = 1;
       this.depth = 0;
 
-      return;
+      return this;
     }
 
     const newNumber = new BigNumber(Math.log10(this.currentValue), this.depth);
@@ -265,9 +275,10 @@ export class BigNumber {
     this.depth = newNumber.depth + 1;
 
     this.updateDegree();
+    return this;
   }
 
-  log(base: BigNumber | number): void {
+  log(base: BigNumber | number): BigNumber {
     if (typeof base === 'number') {
       base = new BigNumber(base);
     }
@@ -294,10 +305,12 @@ export class BigNumber {
     }
 
     this.updateDegree();
+
+    return this;
   }
 
-  log10(): void {
-    this.log(10);
+  log10(): BigNumber {
+    return this.log(10);
   }
 
   moreThan(anotherNumber: BigNumber | number): boolean {

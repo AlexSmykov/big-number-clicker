@@ -197,6 +197,12 @@ describe('BigNumberModel Model', (): void => {
     expect(first.currentValue).toBe(0);
     expect(first.depth).toBe(0);
 
+    first = new BigNumber(55);
+    second = new BigNumber(50);
+    first.minus(second);
+    expect(first.currentValue).toBe(5);
+    expect(first.depth).toBe(0);
+
     first = new BigNumber(5e99);
     second = new BigNumber(5e99);
     first.minus(second);
