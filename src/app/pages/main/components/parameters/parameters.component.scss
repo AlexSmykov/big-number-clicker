@@ -1,0 +1,23 @@
+.wrapper {
+  height: calc(100% - 40px * 2);
+  width: calc(100% - 40px * 2);
+
+  padding: 40px;
+
+  .parameters {
+    height: 100%;
+
+    flex-wrap: wrap;
+    align-items: stretch;
+    row-gap: 2px;
+    column-gap: 20px;
+
+    overflow-x: auto;
+
+    .parameter {
+      width: fit-content;
+
+      color: var(--light);
+    }
+  }
+}

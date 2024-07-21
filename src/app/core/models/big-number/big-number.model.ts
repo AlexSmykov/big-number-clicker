@@ -342,10 +342,15 @@ export class BigNumber {
     return this.depth >= anotherNumber.depth;
   }
 
-  isEqual(anotherNumber: BigNumber | number): boolean {
+  isEqual(anotherNumber: any): boolean {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+
+    if (!(anotherNumber instanceof BigNumber)) {
+      return false;
+    }
+
     return (
       this.depth === anotherNumber.depth &&
       this.currentValue === anotherNumber.currentValue

@@ -26,7 +26,7 @@ export class ClickService {
   get clickButtonText$(): Observable<string> {
     return this.parametersService
       .getAllParameters$()
-      .pipe(map((parameters) => parameters.clickButtonText));
+      .pipe(map((parameters) => parameters.clickButtonText.value));
   }
 
   constructor() {
@@ -45,16 +45,18 @@ export class ClickService {
         money.plus(this._nextClickMoneyGain$.getValue());
         this.resourcesService.setResource(money, EResources.MONEY);
 
-        if (unlocks.CRYSTALS && rollChance(parameters.crystalChance)) {
+        if (unlocks.CRYSTALS && rollChance(parameters.crystalChance.value)) {
           const crystals = resources.CRYSTAL.copy();
           crystals.plus(
-            parameters.baseCrystalRate.multiply(parameters.crystalMultiplier)
+            parameters.baseCrystalRate.value.multiply(
+              parameters.crystalMultiplier.value
+            )
           );
           this.resourcesService.setResource(crystals, EResources.CRYSTAL);
 
-          if (unlocks.RUBY && rollChance(parameters.rubyChance)) {
+          if (unlocks.RUBY && rollChance(parameters.rubyChance.value)) {
             const rubys = resources.RUBY.copy();
-            rubys.plus(parameters.baseRubyRate);
+            rubys.plus(parameters.baseRubyRate.value);
             this.resourcesService.setResource(rubys, EResources.RUBY);
           }
         }
@@ -69,21 +71,23 @@ export class ClickService {
       this.resourcesService.getAllResources$(),
       this.unlocksService.getAllUnlocks$(),
     ]).subscribe(([parameters, resources, unlocks]) => {
-      const baseValue = parameters.baseMoneyRate.copy();
+      const baseValue = parameters.baseMoneyRate.value.copy();
 
       baseValue.multiply(
-        parameters.simpleMultiplier.copy().pow(parameters.simpleMultiplierPower)
+        parameters.simpleMultiplier.value
+          .copy()
+          .pow(parameters.simpleMultiplierPower.value)
       );
-      baseValue.multiply(parameters.crystalMultiplier);
-      baseValue.multiply(parameters.prestigeMultiplier);
+      baseValue.multiply(parameters.crystalMultiplier.value);
+      baseValue.multiply(parameters.prestigeMultiplier.value);
 
       if (unlocks.LOG_MULTIPLIER) {
         const moneyBigNumber = resources.MONEY.copy();
-        moneyBigNumber.log(parameters.logMultiplierBase);
+        moneyBigNumber.log(parameters.logMultiplierBase.value);
         baseValue.multiply(moneyBigNumber);
       }
 
-      baseValue.plus(parameters.flatBonus);
+      baseValue.plus(parameters.flatBonus.value);
 
       this._nextClickMoneyGain$.next(baseValue);
     });
