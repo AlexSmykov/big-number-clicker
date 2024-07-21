@@ -24,7 +24,7 @@ export const EResourcesData: Record<EResources, TResourceData> = {
     iconColor: '--crystal-color',
   },
   [EResources.RUBY]: {
-    name: 'Rubys',
+    name: 'Rubies',
     description:
       'You can gain it with some chance when getting crystals. Rare resource for powerful ups',
     iconPath: `${iconDirPath}crystal.svg`,

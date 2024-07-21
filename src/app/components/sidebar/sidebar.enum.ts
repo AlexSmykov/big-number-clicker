@@ -1,0 +1,7 @@
+export enum EPages {
+  MAIN = 'MAIN',
+  UPGRADES = 'UPGRADES',
+  PRESTIGE = 'PRESTIGE',
+  SETTINGS = 'SETTINGS',
+  ABOUT = 'ABOUT',
+}

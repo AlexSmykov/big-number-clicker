@@ -1,0 +1,61 @@
+.upgrade {
+  padding: 10px;
+  height: calc(100% - 30px);
+
+  border-style: solid;
+  border-width: 5px;
+
+  justify-content: space-between;
+  gap: 10px;
+
+  .title {
+    justify-content: space-between;
+
+    .upgrade-name {
+      font-weight: 600;
+    }
+
+    .level-count {
+      color: var(--light);
+    }
+  }
+
+  .description {
+    color: var(--light);
+    font-weight: 400;
+  }
+
+  .costs {
+    width: 100%;
+
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .buy-button {
+    outline: none;
+    border: none;
+
+    background: var(--light);
+
+    &:hover {
+      background: var(--light-gray);
+    }
+
+    &:active {
+      background: var(--gray);
+    }
+
+    &:disabled {
+      background: var(--dark-gray);
+    }
+  }
+}
+
+.tooltip-tier {
+  font-weight: 700;
+}
+
+.tooltip-text {
+  margin-top: 10px;
+}

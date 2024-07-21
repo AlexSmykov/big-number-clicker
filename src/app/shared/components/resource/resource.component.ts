@@ -14,5 +14,7 @@ import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
   imports: [AsyncPipe, SvgIconComponent, TippyDirective, JsonPipe],
 })
 export default class ResourceComponent {
-  resource = input.required<TResourceData & { value: BigNumber }>();
+  resource = input.required<TResourceData>();
+  value = input.required<BigNumber>();
+  withTooltip = input<boolean>(true);
 }

@@ -1,0 +1,78 @@
+@if (upgrade(); as upgrade) {
+  <div class="upgrade flex-column" [style.border-color]="upgrade.tier">
+    <div class="flex-column">
+      <div class="title flex-row">
+        <p
+          class="upgrade-name f-big"
+          [tp]="tooltipTemplate"
+          [style.color]="upgrade.tier"
+        >
+          {{ upgrade.name }}
+        </p>
+
+        <p class="level-count f-normal">
+          @if (isEndlessUpgrade(upgrade)) {
+            {{ upgrade.count }}
+          } @else if (isCountableUpgrade(upgrade)) {
+            {{ upgrade.count }}/{{ upgrade.maxCount }}
+          }
+        </p>
+      </div>
+
+      <p class="description f-normal">{{ upgrade.description }}</p>
+
+      <div class="costs flex-row">
+        @if (isOneTimeUpgrade(upgrade)) {
+          @for (cost of upgrade.costs; track cost) {
+            <app-resource
+              [resource]="EResourcesData[cost.resourceType]"
+              [value]="cost.cost"
+              [withTooltip]="false"
+            ></app-resource>
+          }
+        } @else if (isEndlessUpgrade(upgrade) || isCountableUpgrade(upgrade)) {
+          @if (upgrade.currentCap > 0) {
+            <p
+              class="f-big"
+              [tp]="tooltipTemplate"
+              [style.color]="upgrade.tier"
+            >
+              {{
+                "Capped" +
+                  (upgrade.currentCap > 1
+                    ? " x" + (upgrade.currentCap + 1)
+                    : "") +
+                  "!"
+              }}
+            </p>
+          }
+
+          @for (cost of upgrade.caps[upgrade.currentCap].costs; track cost) {
+            <app-resource
+              [resource]="EResourcesData[cost.resourceType]"
+              [value]="cost.cost"
+              [withTooltip]="false"
+            ></app-resource>
+          }
+        }
+      </div>
+    </div>
+
+    <button
+      class="buy-button"
+      [disabled]="(availableToBuy$ | async) === false"
+      (click)="onBuy()"
+    >
+      <p class="f-normal">Buy</p>
+    </button>
+  </div>
+}
+
+<ng-template #tooltipTemplate>
+  <p class="tooltip-tier" [style.color]="upgrade().tier">
+    {{ EUpgradeTierNames[upgrade().tier] }}
+  </p>
+  @if (tooltipText(); as tooltipText) {
+    <p class="tooltip-text f-normal">{{ tooltipText }}</p>
+  }
+</ng-template>

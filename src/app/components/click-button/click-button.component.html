@@ -1,5 +1,5 @@
 <div class="button-wrapper flex-column">
-  <button class="click-button" (click)="onClick()">
+  <button class="click-button f-normal" (click)="onClick()">
     {{ clickText$ | async }}
   </button>
   <p class="next-income">Income: {{ (clickGain$ | async)?.toString() }}</p>

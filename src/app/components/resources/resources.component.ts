@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { ResourcesService } from 'src/app/core/resources/resources.service';
 import {
@@ -7,8 +8,8 @@ import {
   EResourcesData,
 } from 'src/app/core/resources/resources.enum';
 import ResourceComponent from 'src/app/shared/components/resource/resource.component';
-
-import { map } from 'rxjs';
+import { UnlocksService } from 'src/app/core/unlocks/unlocks.service';
+import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
 
 @Component({
   selector: 'app-resources',
@@ -19,16 +20,12 @@ import { map } from 'rxjs';
 })
 export default class ResourcesComponent {
   private readonly resourcesService = inject(ResourcesService);
+  private readonly unlocksService = inject(UnlocksService);
 
-  resources$ = this.resourcesService.getAllResources$().pipe(
-    map((resourcesObject) => {
-      return Object.entries(resourcesObject).map(([key, value]) => {
-        return {
-          id: key,
-          value: value,
-          ...EResourcesData[key as EResources],
-        };
-      });
-    })
-  );
+  unlocks = toSignal(this.unlocksService.getAllUnlocks$());
+
+  resources$ = this.resourcesService.getAllResources$();
+  protected readonly EResources = EResources;
+  protected readonly EResourcesData = EResourcesData;
+  protected readonly EUnlocks = EUnlocks;
 }

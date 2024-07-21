@@ -16,13 +16,15 @@
     background: var(--light);
     cursor: pointer;
 
+    user-select: none;
+
     &:hover {
       background: var(--light-gray);
     }
 
     &:active {
-      box-shadow: 0 8px 0 2px var(--dark-gray);
-      margin-top: 8px;
+      box-shadow: 0 4px 0 2px var(--dark-gray);
+      margin-top: 12px;
       background: var(--gray);
     }
   }
