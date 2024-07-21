@@ -11,6 +11,16 @@ export enum EUpgradeType {
   PRESTIGE = 'PRESTIGE',
 }
 
+export enum EUpgradeTier {
+  COMMON = 'COMMON',
+  UNCOMMON = 'UNCOMMON',
+  UNIQUE = 'UNIQUE',
+  RARE = 'RARE',
+  EPIC = 'EPIC',
+  LEGENDARY = 'LEGENDARY',
+  MYTHIC = 'MYTHIC',
+}
+
 export enum EUpgradeCostGrowth {
   NONE = 'NONE',
   PLUS = 'PLUS',
@@ -20,17 +30,8 @@ export enum EUpgradeCostGrowth {
   POWER = 'POWER',
 }
 
-export enum EUpgradeTier {
-  COMMON = 'var(--upgrade-common-color)',
-  UNCOMMON = 'var(--upgrade-uncommon-color)',
-  UNIQUE = 'var(--upgrade-unique-color)',
-  RARE = 'var(--upgrade-rare-color)',
-  EPIC = 'var(--upgrade-epic-color)',
-  LEGENDARY = 'var(--upgrade-legendary-color)',
-  MYTHIC = 'var(--upgrade-mythic-color)',
-}
-
 export enum EUpgrades {
+  // region Endless
   SIMPLE_MULTIPLIER = 'SIMPLE_MULTIPLIER',
   SIMPLE_MULTIPLIER_BOOST = 'SIMPLE_MULTIPLIER_BOOST',
   CRYSTAL_CHANCE = 'CRYSTAL_CHANCE',
@@ -39,17 +40,23 @@ export enum EUpgrades {
   SIMPLE_MULTIPLIER_POWER = 'SIMPLE_MULTIPLIER_POWER',
   PRESTIGE_MULTIPLIER = 'PRESTIGE_MULTIPLIER',
   CRYSTAL_MULTIPLIER_COEFFICIENT = 'CRYSTAL_MULTIPLIER_COEFFICIENT',
+  // endregion
 
+  // region Countable
   LOG_MULTIPLIER_POWER = 'LOG_MULTIPLIER_POWER',
   CRYSTAL_CHANCE_BY_MONEY = 'CRYSTAL_CHANCE_BY_MONEY',
   START_FLAT_BONUS = 'START_FLAT_BONUS',
+  // endregion
 
+  // region One time
   UNLOCK_CRYSTALS = 'UNLOCK_CRYSTALS',
   UNLOCK_SETTINGS_AND_ABOUT = 'UNLOCK_SETTINGS_AND_ABOUT',
   UNLOCK_PRESTIGE = 'UNLOCK_PRESTIGE',
   UNLOCK_LOG_MULTIPLIER = 'UNLOCK_LOG_MULTIPLIER',
   UNLOCK_RUBIES = 'UNLOCK_RUBIES',
+  UNLOCK_MORE_UPGRADES_1 = 'UNLOCK_MORE_UPGRADES_1',
   FLAT_BONUS = 'FLAT_BONUS',
   CRYSTAL_CHANCE_ON_PRESTIGE = 'CRYSTAL_CHANCE_ON_PRESTIGE',
   MULTIPLY_CRYSTAL_GAIN = 'MULTIPLY_CRYSTAL_GAIN',
+  // endregion
 }

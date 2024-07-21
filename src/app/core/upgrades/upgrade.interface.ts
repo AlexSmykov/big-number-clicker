@@ -19,6 +19,8 @@ type TUpgradeBase = {
   description: string;
   type: EUpgradeType;
   buyType: EUpgradeBuyType;
+  isUnlocked: boolean;
+  isResetOnPrestige: boolean;
   createTooltip: (parameters: TParameters) => string | undefined;
 };
 

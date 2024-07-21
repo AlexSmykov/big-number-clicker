@@ -52,7 +52,7 @@ export class ClickService {
           );
           this.resourcesService.setResource(crystals, EResources.CRYSTAL);
 
-          if (unlocks.RUBIES && rollChance(parameters.rubyChance)) {
+          if (unlocks.RUBY && rollChance(parameters.rubyChance)) {
             const rubys = resources.RUBY.copy();
             rubys.plus(parameters.baseRubyRate);
             this.resourcesService.setResource(rubys, EResources.RUBY);
@@ -70,10 +70,6 @@ export class ClickService {
       this.unlocksService.getAllUnlocks$(),
     ]).subscribe(([parameters, resources, unlocks]) => {
       const baseValue = parameters.baseMoneyRate.copy();
-
-      if (baseValue.currentValue > 1) {
-        baseValue.pow(parameters.simplePower);
-      }
 
       baseValue.multiply(
         parameters.simpleMultiplier.copy().pow(parameters.simpleMultiplierPower)

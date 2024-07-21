@@ -1,11 +1,14 @@
 @if (upgrade(); as upgrade) {
-  <div class="upgrade flex-column" [style.border-color]="upgrade.tier">
+  <div
+    class="upgrade flex-column"
+    [style.border-color]="TIER_COLORS[upgrade.tier]"
+  >
     <div class="flex-column">
       <div class="title flex-row">
         <p
           class="upgrade-name f-big"
           [tp]="tooltipTemplate"
-          [style.color]="upgrade.tier"
+          [style.color]="TIER_COLORS[upgrade.tier]"
         >
           {{ upgrade.name }}
         </p>
@@ -35,7 +38,7 @@
             <p
               class="f-big"
               [tp]="tooltipTemplate"
-              [style.color]="upgrade.tier"
+              [style.color]="TIER_COLORS[upgrade.tier]"
             >
               {{
                 "Capped" +
@@ -69,7 +72,7 @@
 }
 
 <ng-template #tooltipTemplate>
-  <p class="tooltip-tier" [style.color]="upgrade().tier">
+  <p class="tooltip-tier" [style.color]="TIER_COLORS[upgrade().tier]">
     {{ EUpgradeTierNames[upgrade().tier] }}
   </p>
   @if (tooltipText(); as tooltipText) {

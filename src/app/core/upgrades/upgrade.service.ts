@@ -89,7 +89,8 @@ export class UpgradeService {
       .getAllParameters$()
       .pipe(take(1))
       .subscribe((parameters) => {
-        const upgrade = this._upgrades$.getValue()[upgradeKey];
+        const upgrades = this._upgrades$.getValue();
+        const upgrade = upgrades[upgradeKey];
         this.updateCosts(upgrade);
 
         if (isOneTimeUpgrade(upgrade)) {
@@ -142,6 +143,13 @@ export class UpgradeService {
           case EUpgrades.UNLOCK_CRYSTALS:
             this.unlocksService.setLock(true, EUnlocks.CRYSTALS);
             parameters.clickButtonText = 'Crystal age are coming';
+
+            upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT].isUnlocked = true;
+            upgrades[EUpgrades.UNLOCK_PRESTIGE].isUnlocked = true;
+            upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER].isUnlocked = true;
+            upgrades[EUpgrades.CRYSTAL_MULTIPLIER].isUnlocked = true;
+            upgrades[EUpgrades.CRYSTAL_CHANCE].isUnlocked = true;
+
             break;
 
           case EUpgrades.UNLOCK_SETTINGS_AND_ABOUT:
@@ -151,16 +159,32 @@ export class UpgradeService {
           case EUpgrades.UNLOCK_LOG_MULTIPLIER:
             this.unlocksService.setLock(true, EUnlocks.LOG_MULTIPLIER);
             parameters.clickButtonText = 'log(money)';
+
+            upgrades[EUpgrades.LOG_MULTIPLIER_BASE].isUnlocked = true;
+            upgrades[EUpgrades.LOG_MULTIPLIER_POWER].isUnlocked = true;
+
             break;
 
           case EUpgrades.UNLOCK_PRESTIGE:
             this.unlocksService.setLock(true, EUnlocks.PRESTIGE);
             parameters.clickButtonText = 'Now you can reset';
+
+            upgrades[EUpgrades.PRESTIGE_MULTIPLIER].isUnlocked = true;
+            upgrades[EUpgrades.SIMPLE_MULTIPLIER_POWER].isUnlocked = true;
+            upgrades[EUpgrades.START_FLAT_BONUS].isUnlocked = true;
+            upgrades[EUpgrades.UNLOCK_RUBIES].isUnlocked = true;
+            upgrades[EUpgrades.UNLOCK_MORE_UPGRADES_1].isUnlocked = true;
+
             break;
 
           case EUpgrades.UNLOCK_RUBIES:
-            this.unlocksService.setLock(true, EUnlocks.RUBIES);
+            this.unlocksService.setLock(true, EUnlocks.RUBY);
             parameters.clickButtonText = 'Red crystals lol';
+
+            upgrades[EUpgrades.MULTIPLY_CRYSTAL_GAIN].isUnlocked = true;
+            upgrades[EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT].isUnlocked =
+              true;
+
             break;
 
           case EUpgrades.FLAT_BONUS:
@@ -200,6 +224,14 @@ export class UpgradeService {
             parameters.prestigeMultiplier.plus(
               parameters.prestigeMultiplierCoefficient
             );
+            break;
+
+          case EUpgrades.UNLOCK_MORE_UPGRADES_1:
+            this.unlocksService.setLock(true, EUnlocks.MORE_UPGRADES_1);
+
+            upgrades[EUpgrades.FLAT_BONUS].isUnlocked = true;
+            upgrades[EUpgrades.CRYSTAL_CHANCE_ON_PRESTIGE].isUnlocked = true;
+            upgrades[EUpgrades.CRYSTAL_CHANCE_BY_MONEY].isUnlocked = true;
             break;
 
           default:
