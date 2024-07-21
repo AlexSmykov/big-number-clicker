@@ -37,3 +37,7 @@ export function parseLoadedValue<T>(value: TSavedValue<T>): T {
 export function rollChance(chance: number): boolean {
   return Math.random() * 10000 <= chance;
 }
+
+export function isExhausted(_: never): never {
+  throw new Error('Value is not exhausted');
+}
