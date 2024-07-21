@@ -1,24 +1,35 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
 import { TUpgrade, TUpgrades } from 'src/app/core/upgrades/upgrade.interface';
-import { UPGRADES_START_CONFIG } from 'src/app/core/upgrades/upgrade.const';
+import {
+  UPGRADE_COST_GROW_FORMULAS,
+  UPGRADES_START_CONFIG,
+} from 'src/app/core/upgrades/upgrade.const';
 import { EUpgrades } from 'src/app/core/upgrades/upgrade.enum';
-import { parseLoadedValue } from 'src/app/core/utils/core.utils';
+import { isExhausted, parseLoadedValue } from 'src/app/core/utils/core.utils';
 import { TSavedValue } from 'src/app/core/interfaces/core.interface';
+import { ParametersService } from 'src/app/core/parameters/parameters.service';
+import { UnlocksService } from 'src/app/core/unlocks/unlocks.service';
+import { isOneTimeUpgrade } from 'src/app/core/upgrades/upgrade.utils';
+import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
 
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UpgradeService {
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly parametersService = inject(ParametersService);
+  private readonly unlocksService = inject(UnlocksService);
+
   private readonly _upgrades$ = new BehaviorSubject<TUpgrades>(
     UPGRADES_START_CONFIG
   );
 
   private isHasSavedValue = false;
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor() {
     this.loadUpgrades();
   }
 
@@ -33,8 +44,22 @@ export class UpgradeService {
         Object.keys(UPGRADES_START_CONFIG).length
     ) {
       this.isHasSavedValue = true;
+      const parsedUpgrades = parseLoadedValue(
+        JSON.parse(foundValue) as TSavedValue<TUpgrades>
+      );
       this._upgrades$.next(
-        parseLoadedValue(JSON.parse(foundValue) as TSavedValue<TUpgrades>)
+        Object.fromEntries(
+          Object.entries(parsedUpgrades).map(([key, value]) => {
+            return [
+              key,
+              {
+                ...value,
+                createTooltip:
+                  UPGRADES_START_CONFIG[key as EUpgrades].createTooltip,
+              },
+            ];
+          })
+        ) as TUpgrades
       );
     }
   }
@@ -51,15 +76,157 @@ export class UpgradeService {
     }
   }
 
-  getUpgrades$(upgradeKey: EUpgrades): Observable<TUpgrade> {
+  getUpgrade$(upgradeKey: EUpgrades): Observable<TUpgrade> {
     return this._upgrades$.pipe(map((upgrades) => upgrades[upgradeKey]));
   }
 
+  getAllUpgrades$(): Observable<TUpgrades> {
+    return this._upgrades$.asObservable();
+  }
+
   upgrade(upgradeKey: EUpgrades) {
-    const upgrades = this._upgrades$.getValue();
-    switch (upgradeKey) {
-      default:
-        return;
+    this.parametersService
+      .getAllParameters$()
+      .pipe(take(1))
+      .subscribe((parameters) => {
+        const upgrade = this._upgrades$.getValue()[upgradeKey];
+        this.updateCosts(upgrade);
+
+        if (isOneTimeUpgrade(upgrade)) {
+          upgrade.bought = true;
+        }
+
+        switch (upgradeKey) {
+          case EUpgrades.SIMPLE_MULTIPLIER:
+            parameters.simpleMultiplier.plus(
+              parameters.simpleMultiplierCoefficient
+            );
+            break;
+
+          case EUpgrades.SIMPLE_MULTIPLIER_BOOST:
+            parameters.simpleMultiplier.multiply(
+              parameters.simpleMultiplierIncrease
+            );
+            parameters.simpleMultiplierCoefficient.multiply(
+              parameters.simpleMultiplierCoefficientIncrease
+            );
+            break;
+
+          case EUpgrades.CRYSTAL_CHANCE:
+            parameters.crystalChance += parameters.crystalChanceIncrease;
+            break;
+
+          case EUpgrades.CRYSTAL_MULTIPLIER:
+            parameters.crystalMultiplier.multiply(
+              parameters.crystalMultiplierCoefficient
+            );
+            break;
+
+          case EUpgrades.LOG_MULTIPLIER_BASE:
+            parameters.logMultiplierBase =
+              (parameters.logMultiplierBase - 1) /
+                parameters.logMultiplierBaseDecrease +
+              1;
+            break;
+
+          case EUpgrades.LOG_MULTIPLIER_POWER:
+            parameters.logMultiplierPower.plus(
+              parameters.logMultiplierPowerIncrease
+            );
+            break;
+
+          case EUpgrades.CRYSTAL_CHANCE_BY_MONEY:
+            parameters.crystalChance += parameters.crystalChanceMoneyIncrease;
+            break;
+
+          case EUpgrades.UNLOCK_CRYSTALS:
+            this.unlocksService.setLock(true, EUnlocks.CRYSTALS);
+            parameters.clickButtonText = 'Crystal age are coming';
+            break;
+
+          case EUpgrades.UNLOCK_SETTINGS_AND_ABOUT:
+            this.unlocksService.setLock(true, EUnlocks.SETTINGS_AND_ABOUT);
+            break;
+
+          case EUpgrades.UNLOCK_LOG_MULTIPLIER:
+            this.unlocksService.setLock(true, EUnlocks.LOG_MULTIPLIER);
+            parameters.clickButtonText = 'log(money)';
+            break;
+
+          case EUpgrades.UNLOCK_PRESTIGE:
+            this.unlocksService.setLock(true, EUnlocks.PRESTIGE);
+            parameters.clickButtonText = 'Now you can reset';
+            break;
+
+          case EUpgrades.UNLOCK_RUBIES:
+            this.unlocksService.setLock(true, EUnlocks.RUBIES);
+            parameters.clickButtonText = 'Red crystals lol';
+            break;
+
+          case EUpgrades.FLAT_BONUS:
+            parameters.flatBonus.plus(parameters.flatBonusUpgrade1);
+            break;
+
+          case EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT:
+            parameters.crystalMultiplierCoefficient.plus(
+              parameters.crystalMultiplierCoefficientIncrease
+            );
+            break;
+
+          case EUpgrades.SIMPLE_MULTIPLIER_POWER:
+            parameters.simpleMultiplierPower.plus(
+              parameters.simpleMultiplierCoefficientIncrease
+            );
+            break;
+
+          case EUpgrades.CRYSTAL_CHANCE_ON_PRESTIGE:
+            parameters.crystalChanceOnPrestige +=
+              parameters.crystalChanceOnPrestigeCoefficient;
+            break;
+
+          case EUpgrades.START_FLAT_BONUS:
+            parameters.flatBonusStart.plus(
+              parameters.flatBonusStartCoefficient
+            );
+            break;
+
+          case EUpgrades.MULTIPLY_CRYSTAL_GAIN:
+            parameters.crystalGainMultiplier.plus(
+              parameters.rubyCristalGainMultiplier
+            );
+            break;
+
+          case EUpgrades.PRESTIGE_MULTIPLIER:
+            parameters.prestigeMultiplier.plus(
+              parameters.prestigeMultiplierCoefficient
+            );
+            break;
+
+          default:
+            isExhausted(upgradeKey);
+        }
+
+        this.parametersService.setParameters(parameters);
+      });
+  }
+
+  private updateCosts(upgrade: TUpgrade): void {
+    if (isOneTimeUpgrade(upgrade)) {
+      return;
     }
+
+    upgrade.count++;
+    if (
+      upgrade.caps.length > upgrade.currentCap + 1 &&
+      upgrade.caps[upgrade.currentCap + 1].startAtCount <= upgrade.count
+    ) {
+      upgrade.currentCap++;
+      return;
+    }
+
+    let costs = upgrade.caps[upgrade.currentCap].costs;
+    costs.forEach((cost) =>
+      UPGRADE_COST_GROW_FORMULAS[cost.growthFormula](cost, upgrade.count)
+    );
   }
 }
