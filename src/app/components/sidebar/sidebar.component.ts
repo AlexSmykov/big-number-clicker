@@ -6,6 +6,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SIDEBAR_BUTTONS } from 'src/app/components/sidebar/sidebar.const';
 import { EFullRoutes } from 'src/app/core/router-paths';
 import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
+import { UnlocksService } from 'src/app/core/unlocks/unlocks.service';
+import { EPages } from 'src/app/components/sidebar/sidebar.enum';
+import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
 
 import { filter, map } from 'rxjs';
 
@@ -18,13 +21,17 @@ import { filter, map } from 'rxjs';
 })
 export default class SidebarComponent {
   private readonly router = inject(Router);
+  private readonly unlocksService = inject(UnlocksService);
 
+  readonly unlocks = toSignal(this.unlocksService.getAllUnlocks$());
   readonly url = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event) => event.urlAfterRedirects)
     )
   );
-  readonly buttons = SIDEBAR_BUTTONS;
+  readonly pageButtons = SIDEBAR_BUTTONS;
   readonly EFullRoutes = EFullRoutes;
+  protected readonly EPages = EPages;
+  protected readonly EUnlocks = EUnlocks;
 }
