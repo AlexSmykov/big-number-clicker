@@ -45,14 +45,16 @@ export class ClickService {
         money.plus(this._nextClickMoneyGain$.getValue());
         this.resourcesService.setResource(money, EResources.MONEY);
 
-        if (rollChance(parameters.crystalChance)) {
+        if (unlocks.CRYSTALS && rollChance(parameters.crystalChance)) {
           const crystals = resources.CRYSTAL.copy();
-          crystals.plus(1);
+          crystals.plus(
+            parameters.baseCrystalRate.multiply(parameters.crystalMultiplier)
+          );
           this.resourcesService.setResource(crystals, EResources.CRYSTAL);
 
-          if (unlocks.IS_RUBYS_UNLOCK && rollChance(parameters.rubyChance)) {
+          if (unlocks.RUBIES && rollChance(parameters.rubyChance)) {
             const rubys = resources.RUBY.copy();
-            rubys.plus(1);
+            rubys.plus(parameters.baseRubyRate);
             this.resourcesService.setResource(rubys, EResources.RUBY);
           }
         }
@@ -67,19 +69,25 @@ export class ClickService {
       this.resourcesService.getAllResources$(),
       this.unlocksService.getAllUnlocks$(),
     ]).subscribe(([parameters, resources, unlocks]) => {
-      const baseValue = parameters.baseRate.copy();
+      const baseValue = parameters.baseMoneyRate.copy();
 
       if (baseValue.currentValue > 1) {
         baseValue.pow(parameters.simplePower);
       }
-      baseValue.multiply(parameters.simpleMultiplier);
-      baseValue.multiply(parameters.crystalMultiplier);
 
-      if (unlocks.IS_LOG_MULTIPLIER_UNLOCK) {
+      baseValue.multiply(
+        parameters.simpleMultiplier.copy().pow(parameters.simpleMultiplierPower)
+      );
+      baseValue.multiply(parameters.crystalMultiplier);
+      baseValue.multiply(parameters.prestigeMultiplier);
+
+      if (unlocks.LOG_MULTIPLIER) {
         const moneyBigNumber = resources.MONEY.copy();
         moneyBigNumber.log(parameters.logMultiplierBase);
         baseValue.multiply(moneyBigNumber);
       }
+
+      baseValue.plus(parameters.flatBonus);
 
       this._nextClickMoneyGain$.next(baseValue);
     });
