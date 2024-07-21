@@ -1,4 +1,16 @@
-.active-section {
-  justify-content: center;
-  margin: 32px;
+.section {
+  height: 100%;
+
+  gap: 0;
+
+  overflow-y: auto;
+
+  .active-section {
+    justify-content: center;
+    margin: 32px;
+  }
+
+  .parameters {
+    height: 300px;
+  }
 }
