@@ -1,47 +1,54 @@
 import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 
 export type TParameters = {
-  clickButtonText: string;
+  clickButtonText: TParametersValue<string>;
 
-  baseMoneyRate: BigNumber;
-  baseCrystalRate: BigNumber;
-  basePrestigeRate: BigNumber;
-  baseRubyRate: BigNumber;
+  baseMoneyRate: TParametersValue<BigNumber>;
+  baseCrystalRate: TParametersValue<BigNumber>;
+  basePrestigeRate: TParametersValue<BigNumber>;
+  baseRubyRate: TParametersValue<BigNumber>;
 
-  flatBonus: BigNumber;
-  flatBonusUpgrade1: BigNumber;
-  flatBonusUpgradePrestige: BigNumber;
-  flatBonusStart: BigNumber;
-  flatBonusStartCoefficient: BigNumber;
+  flatBonus: TParametersValue<BigNumber>;
+  flatBonusUpgrade1: TParametersValue<BigNumber>;
+  flatBonusUpgradePrestige: TParametersValue<BigNumber>;
+  flatBonusStart: TParametersValue<BigNumber>;
+  flatBonusStartCoefficient: TParametersValue<BigNumber>;
 
-  simpleMultiplier: BigNumber;
-  simpleMultiplierIncrease: BigNumber;
-  simpleMultiplierCoefficient: BigNumber;
-  simpleMultiplierCoefficientIncrease: BigNumber;
-  simpleMultiplierPower: BigNumber;
-  simpleMultiplierPowerCoefficient: BigNumber;
+  simpleMultiplier: TParametersValue<BigNumber>;
+  simpleMultiplierIncrease: TParametersValue<BigNumber>;
+  simpleMultiplierCoefficient: TParametersValue<BigNumber>;
+  simpleMultiplierCoefficientIncrease: TParametersValue<BigNumber>;
+  simpleMultiplierPower: TParametersValue<BigNumber>;
+  simpleMultiplierPowerCoefficient: TParametersValue<BigNumber>;
 
-  crystalChance: number;
-  crystalChanceIncrease: number;
-  crystalChanceOnPrestige: number;
-  crystalChanceOnPrestigeCoefficient: number;
-  crystalChanceMoneyIncrease: number;
-  crystalMultiplier: BigNumber;
-  crystalMultiplierCoefficient: BigNumber;
-  crystalMultiplierCoefficientIncrease: BigNumber;
-  crystalGainMultiplier: BigNumber;
+  crystalChance: TParametersValue<number>;
+  crystalChanceIncrease: TParametersValue<number>;
+  crystalChanceOnPrestige: TParametersValue<number>;
+  crystalChanceOnPrestigeCoefficient: TParametersValue<number>;
+  crystalChanceMoneyIncrease: TParametersValue<number>;
+  crystalMultiplier: TParametersValue<BigNumber>;
+  crystalMultiplierCoefficient: TParametersValue<BigNumber>;
+  crystalMultiplierCoefficientIncrease: TParametersValue<BigNumber>;
+  crystalGainMultiplier: TParametersValue<BigNumber>;
 
-  rubyChance: number;
-  rubyCristalGainMultiplier: BigNumber;
+  rubyChance: TParametersValue<number>;
+  rubyCristalGainMultiplier: TParametersValue<BigNumber>;
 
-  logMultiplierBase: number;
-  logMultiplierBaseDecrease: number;
-  logMultiplierPower: BigNumber;
-  logMultiplierPowerIncrease: BigNumber;
+  logMultiplierBase: TParametersValue<number>;
+  logMultiplierBaseDecrease: TParametersValue<number>;
+  logMultiplierPower: TParametersValue<BigNumber>;
+  logMultiplierPowerIncrease: TParametersValue<BigNumber>;
 
-  prestigeBorder: BigNumber;
-  prestigeBorderDecrease: BigNumber;
-  prestigePointsGainCoefficient: BigNumber;
-  prestigeMultiplier: BigNumber;
-  prestigeMultiplierCoefficient: BigNumber;
+  prestigeBorder: TParametersValue<BigNumber>;
+  prestigeBorderDecrease: TParametersValue<BigNumber>;
+  prestigePointsGainCoefficient: TParametersValue<BigNumber>;
+  prestigeMultiplier: TParametersValue<BigNumber>;
+  prestigeMultiplierCoefficient: TParametersValue<BigNumber>;
+};
+
+export type TParametersValue<T> = {
+  name: string;
+  isVisible: boolean;
+  value: T;
+  isPercent: boolean;
 };

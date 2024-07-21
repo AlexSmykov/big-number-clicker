@@ -90,7 +90,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Simple multiplier: ${parameters.simpleMultiplier} -> ${parameters.simpleMultiplier.copy().plus(parameters.simpleMultiplierCoefficient)}`;
+      return `Simple multiplier: ${parameters.simpleMultiplier.value} -> ${parameters.simpleMultiplier.value.copy().plus(parameters.simpleMultiplierCoefficient.value)}`;
     },
   },
   [EUpgrades.SIMPLE_MULTIPLIER_BOOST]: {
@@ -118,7 +118,10 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Simple multiplier: ${parameters.simpleMultiplier} -> ${parameters.simpleMultiplier.copy().multiply(parameters.simpleMultiplierIncrease)}; Simple multiplier increase coefficient: ${parameters.simpleMultiplierCoefficient} -> ${parameters.simpleMultiplierCoefficient.copy().multiply(parameters.simpleMultiplierCoefficientIncrease.copy())}`;
+      return `Simple multiplier: ${parameters.simpleMultiplier.value}
+      -> ${parameters.simpleMultiplier.value.copy().multiply(parameters.simpleMultiplierIncrease.value)};
+      Simple multiplier increase coefficient: ${parameters.simpleMultiplierCoefficient.value}
+      -> ${parameters.simpleMultiplierCoefficient.value.copy().multiply(parameters.simpleMultiplierCoefficientIncrease.value.copy())}`;
     },
   },
   [EUpgrades.LOG_MULTIPLIER_BASE]: {
@@ -165,8 +168,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.toPrecision(4)}, money)^${parameters.logMultiplierPower}
-       -> log(${((parameters.logMultiplierBase - 1) / parameters.logMultiplierBaseDecrease + 1).toPrecision(4)}, money)^${parameters.logMultiplierPower}`;
+      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.value.toPrecision(4)}, money)^${parameters.logMultiplierPower.value}
+       -> log(${((parameters.logMultiplierBase.value - 1) / parameters.logMultiplierBaseDecrease.value + 1).toPrecision(4)}, money)^${parameters.logMultiplierPower.value}`;
     },
   },
   [EUpgrades.CRYSTAL_CHANCE]: {
@@ -254,7 +257,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Crystal chance: ${parameters.crystalChance / 100}% -> ${(parameters.crystalChance + parameters.crystalChanceIncrease) / 100}%`;
+      return `Crystal chance: ${parameters.crystalChance.value / 100}% -> ${(parameters.crystalChance.value + parameters.crystalChanceIncrease.value) / 100}%`;
     },
   },
   [EUpgrades.CRYSTAL_MULTIPLIER]: {
@@ -282,7 +285,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Crystal multiplier: ${parameters.crystalMultiplier} -> ${parameters.crystalMultiplier.copy().multiply(parameters.crystalMultiplierCoefficient)}`;
+      return `Crystal multiplier: ${parameters.crystalMultiplier.value} -> ${parameters.crystalMultiplier.value.copy().multiply(parameters.crystalMultiplierCoefficient.value)}`;
     },
   },
   [EUpgrades.SIMPLE_MULTIPLIER_POWER]: {
@@ -318,7 +321,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Simple multiplier power: ${parameters.simpleMultiplierPower} -> ${parameters.simpleMultiplierPower.copy().plus(parameters.simpleMultiplierPowerCoefficient)}`;
+      return `Simple multiplier power: ${parameters.simpleMultiplierPower.value}
+      -> ${parameters.simpleMultiplierPower.value.copy().plus(parameters.simpleMultiplierPowerCoefficient.value)}`;
     },
   },
   [EUpgrades.PRESTIGE_MULTIPLIER]: {
@@ -346,7 +350,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Prestige multiplier: ${parameters.prestigeMultiplier} -> ${parameters.prestigeMultiplier.copy().plus(parameters.prestigeMultiplierCoefficient)}`;
+      return `Prestige multiplier: ${parameters.prestigeMultiplier.value}
+      -> ${parameters.prestigeMultiplier.value.copy().plus(parameters.prestigeMultiplierCoefficient.value)}`;
     },
   },
   [EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT]: {
@@ -381,7 +386,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Crystal multiplier coefficient: ${parameters.crystalMultiplierCoefficient} -> ${parameters.crystalMultiplierCoefficient.copy().plus(parameters.crystalMultiplierCoefficientIncrease)}`;
+      return `Crystal multiplier coefficient: ${parameters.crystalMultiplierCoefficient.value}
+      -> ${parameters.crystalMultiplierCoefficient.value.copy().plus(parameters.crystalMultiplierCoefficientIncrease.value)}`;
     },
   },
 
@@ -412,7 +418,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.toPrecision(4)}, money)^${parameters.logMultiplierPower} -> log(${parameters.logMultiplierBase.toPrecision(4)}, money)^${parameters.logMultiplierPower.copy().plus(parameters.logMultiplierPowerIncrease)}`;
+      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.value.toPrecision(4)}, money)^${parameters.logMultiplierPower.value}
+      -> log(${parameters.logMultiplierBase.value.toPrecision(4)}, money)^${parameters.logMultiplierPower.value.copy().plus(parameters.logMultiplierPowerIncrease.value)}`;
     },
   },
   [EUpgrades.CRYSTAL_CHANCE_BY_MONEY]: {
@@ -442,7 +449,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Crystal chance: ${parameters.crystalChance / 100}% -> ${(parameters.crystalChance + parameters.crystalChanceMoneyIncrease) / 100}%`;
+      return `Crystal chance: ${parameters.crystalChance.value / 100}%
+      -> ${(parameters.crystalChance.value + parameters.crystalChanceMoneyIncrease.value) / 100}%`;
     },
   },
   [EUpgrades.START_FLAT_BONUS]: {
@@ -471,7 +479,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Start flat bonus: ${parameters.flatBonusStart} -> ${parameters.flatBonusStart.copy().plus(parameters.flatBonusStartCoefficient)}`;
+      return `Start flat bonus: ${parameters.flatBonusStart.value}
+      -> ${parameters.flatBonusStart.value.copy().plus(parameters.flatBonusStartCoefficient.value)}`;
     },
   },
 
@@ -641,7 +650,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Flat bonus: ${parameters.flatBonus} -> ${parameters.flatBonus.copy().plus(parameters.flatBonusUpgrade1)}`;
+      return `Flat bonus: ${parameters.flatBonus.value}
+      -> ${parameters.flatBonus.value.copy().plus(parameters.flatBonusUpgrade1.value)}`;
     },
   },
   [EUpgrades.CRYSTAL_CHANCE_ON_PRESTIGE]: {
@@ -664,7 +674,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Crystal chance every prestige: +${parameters.crystalChanceOnPrestigeCoefficient / 100}%`;
+      return `Crystal chance every prestige: +${parameters.crystalChanceOnPrestigeCoefficient.value / 100}%`;
     },
   },
   [EUpgrades.MULTIPLY_CRYSTAL_GAIN]: {
@@ -683,7 +693,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Crystal gain per chance: ${parameters.crystalGainMultiplier} -> ${parameters.crystalGainMultiplier.copy().multiply(parameters.rubyCristalGainMultiplier)}`;
+      return `Crystal gain per chance: ${parameters.crystalGainMultiplier.value}
+      -> ${parameters.crystalGainMultiplier.value.copy().multiply(parameters.rubyCristalGainMultiplier.value)}`;
     },
   },
 };

@@ -99,50 +99,52 @@ export class UpgradeService {
 
         switch (upgradeKey) {
           case EUpgrades.SIMPLE_MULTIPLIER:
-            parameters.simpleMultiplier.plus(
-              parameters.simpleMultiplierCoefficient
+            parameters.simpleMultiplier.value.plus(
+              parameters.simpleMultiplierCoefficient.value
             );
             break;
 
           case EUpgrades.SIMPLE_MULTIPLIER_BOOST:
-            parameters.simpleMultiplier.multiply(
-              parameters.simpleMultiplierIncrease
+            parameters.simpleMultiplier.value.multiply(
+              parameters.simpleMultiplierIncrease.value
             );
-            parameters.simpleMultiplierCoefficient.multiply(
-              parameters.simpleMultiplierCoefficientIncrease
+            parameters.simpleMultiplierCoefficient.value.multiply(
+              parameters.simpleMultiplierCoefficientIncrease.value
             );
             break;
 
           case EUpgrades.CRYSTAL_CHANCE:
-            parameters.crystalChance += parameters.crystalChanceIncrease;
+            parameters.crystalChance.value +=
+              parameters.crystalChanceIncrease.value;
             break;
 
           case EUpgrades.CRYSTAL_MULTIPLIER:
-            parameters.crystalMultiplier.multiply(
-              parameters.crystalMultiplierCoefficient
+            parameters.crystalMultiplier.value.multiply(
+              parameters.crystalMultiplierCoefficient.value
             );
             break;
 
           case EUpgrades.LOG_MULTIPLIER_BASE:
-            parameters.logMultiplierBase =
-              (parameters.logMultiplierBase - 1) /
-                parameters.logMultiplierBaseDecrease +
+            parameters.logMultiplierBase.value =
+              (parameters.logMultiplierBase.value - 1) /
+                parameters.logMultiplierBaseDecrease.value +
               1;
             break;
 
           case EUpgrades.LOG_MULTIPLIER_POWER:
-            parameters.logMultiplierPower.plus(
-              parameters.logMultiplierPowerIncrease
+            parameters.logMultiplierPower.value.plus(
+              parameters.logMultiplierPowerIncrease.value
             );
             break;
 
           case EUpgrades.CRYSTAL_CHANCE_BY_MONEY:
-            parameters.crystalChance += parameters.crystalChanceMoneyIncrease;
+            parameters.crystalChance.value +=
+              parameters.crystalChanceMoneyIncrease.value;
             break;
 
           case EUpgrades.UNLOCK_CRYSTALS:
             this.unlocksService.setLock(true, EUnlocks.CRYSTALS);
-            parameters.clickButtonText = 'Crystal age are coming';
+            parameters.clickButtonText.value = 'Crystal age are coming';
 
             upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT].isUnlocked = true;
             upgrades[EUpgrades.UNLOCK_PRESTIGE].isUnlocked = true;
@@ -158,7 +160,7 @@ export class UpgradeService {
 
           case EUpgrades.UNLOCK_LOG_MULTIPLIER:
             this.unlocksService.setLock(true, EUnlocks.LOG_MULTIPLIER);
-            parameters.clickButtonText = 'log(money)';
+            parameters.clickButtonText.value = 'log(money)';
 
             upgrades[EUpgrades.LOG_MULTIPLIER_BASE].isUnlocked = true;
             upgrades[EUpgrades.LOG_MULTIPLIER_POWER].isUnlocked = true;
@@ -167,7 +169,7 @@ export class UpgradeService {
 
           case EUpgrades.UNLOCK_PRESTIGE:
             this.unlocksService.setLock(true, EUnlocks.PRESTIGE);
-            parameters.clickButtonText = 'Now you can reset';
+            parameters.clickButtonText.value = 'Now you can reset';
 
             upgrades[EUpgrades.PRESTIGE_MULTIPLIER].isUnlocked = true;
             upgrades[EUpgrades.SIMPLE_MULTIPLIER_POWER].isUnlocked = true;
@@ -179,7 +181,7 @@ export class UpgradeService {
 
           case EUpgrades.UNLOCK_RUBIES:
             this.unlocksService.setLock(true, EUnlocks.RUBY);
-            parameters.clickButtonText = 'Red crystals lol';
+            parameters.clickButtonText.value = 'Red crystals lol';
 
             upgrades[EUpgrades.MULTIPLY_CRYSTAL_GAIN].isUnlocked = true;
             upgrades[EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT].isUnlocked =
@@ -188,41 +190,41 @@ export class UpgradeService {
             break;
 
           case EUpgrades.FLAT_BONUS:
-            parameters.flatBonus.plus(parameters.flatBonusUpgrade1);
+            parameters.flatBonus.value.plus(parameters.flatBonusUpgrade1.value);
             break;
 
           case EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT:
-            parameters.crystalMultiplierCoefficient.plus(
-              parameters.crystalMultiplierCoefficientIncrease
+            parameters.crystalMultiplierCoefficient.value.plus(
+              parameters.crystalMultiplierCoefficientIncrease.value
             );
             break;
 
           case EUpgrades.SIMPLE_MULTIPLIER_POWER:
-            parameters.simpleMultiplierPower.plus(
-              parameters.simpleMultiplierCoefficientIncrease
+            parameters.simpleMultiplierPower.value.plus(
+              parameters.simpleMultiplierCoefficientIncrease.value
             );
             break;
 
           case EUpgrades.CRYSTAL_CHANCE_ON_PRESTIGE:
-            parameters.crystalChanceOnPrestige +=
-              parameters.crystalChanceOnPrestigeCoefficient;
+            parameters.crystalChanceOnPrestige.value +=
+              parameters.crystalChanceOnPrestigeCoefficient.value;
             break;
 
           case EUpgrades.START_FLAT_BONUS:
-            parameters.flatBonusStart.plus(
-              parameters.flatBonusStartCoefficient
+            parameters.flatBonusStart.value.plus(
+              parameters.flatBonusStartCoefficient.value
             );
             break;
 
           case EUpgrades.MULTIPLY_CRYSTAL_GAIN:
-            parameters.crystalGainMultiplier.plus(
-              parameters.rubyCristalGainMultiplier
+            parameters.crystalGainMultiplier.value.plus(
+              parameters.rubyCristalGainMultiplier.value
             );
             break;
 
           case EUpgrades.PRESTIGE_MULTIPLIER:
-            parameters.prestigeMultiplier.plus(
-              parameters.prestigeMultiplierCoefficient
+            parameters.prestigeMultiplier.value.plus(
+              parameters.prestigeMultiplierCoefficient.value
             );
             break;
 
