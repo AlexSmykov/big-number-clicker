@@ -12,8 +12,11 @@ import {
 } from 'src/app/core/upgrades/upgrade.utils';
 import ResourceComponent from 'src/app/shared/components/resource/resource.component';
 import { ResourcesService } from 'src/app/core/resources/resources.service';
-import { EResourcesData } from 'src/app/core/resources/resources.enum';
-import { EUpgradeTierNames } from 'src/app/core/upgrades/upgrade.const';
+import {
+  EUpgradeTierNames,
+  TIER_COLORS,
+} from 'src/app/core/upgrades/upgrade.const';
+import { RESOURCE_DATA } from 'src/app/core/resources/resources.const';
 
 import { combineLatest, map } from 'rxjs';
 
@@ -36,7 +39,7 @@ export default class UpgradeComponent {
   readonly isOneTimeUpgrade = isOneTimeUpgrade;
   readonly isEndlessUpgrade = isEndlessUpgrade;
   readonly isCountableUpgrade = isCountableUpgrade;
-  readonly EResourcesData = EResourcesData;
+  readonly EResourcesData = RESOURCE_DATA;
   readonly EUpgradeTierNames = EUpgradeTierNames;
 
   private readonly upgrade$ = toObservable(this.upgrade);
@@ -59,4 +62,6 @@ export default class UpgradeComponent {
   onBuy(): void {
     this.buy.emit();
   }
+
+  protected readonly TIER_COLORS = TIER_COLORS;
 }

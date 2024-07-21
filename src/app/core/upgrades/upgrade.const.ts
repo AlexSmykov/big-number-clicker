@@ -42,6 +42,16 @@ export const UPGRADE_COST_GROW_FORMULAS: Record<
   },
 };
 
+export const TIER_COLORS: Record<EUpgradeTier, string> = {
+  [EUpgradeTier.COMMON]: 'var(--upgrade-common-color)',
+  [EUpgradeTier.UNCOMMON]: 'var(--upgrade-uncommon-color)',
+  [EUpgradeTier.UNIQUE]: 'var(--upgrade-unique-color)',
+  [EUpgradeTier.RARE]: 'var(--upgrade-rare-color)',
+  [EUpgradeTier.EPIC]: 'var(--upgrade-epic-color)',
+  [EUpgradeTier.LEGENDARY]: 'var(--upgrade-legendary-color)',
+  [EUpgradeTier.MYTHIC]: 'var(--upgrade-mythic-color)',
+};
+
 export const EUpgradeTierNames: Record<EUpgradeTier, string> = {
   [EUpgradeTier.COMMON]: 'Common',
   [EUpgradeTier.UNCOMMON]: 'Uncommon',
@@ -61,6 +71,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.MONEY,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: true,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -87,6 +99,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.MONEY,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: true,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -113,6 +127,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -149,7 +165,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.toFixed(5)}, money)^${parameters.logMultiplierPower} -> log(${((parameters.logMultiplierBase - 1) / parameters.logMultiplierBaseDecrease + 1).toFixed(5)}, money)^${parameters.logMultiplierPower}`;
+      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.toPrecision(4)}, money)^${parameters.logMultiplierPower}
+       -> log(${((parameters.logMultiplierBase - 1) / parameters.logMultiplierBaseDecrease + 1).toPrecision(4)}, money)^${parameters.logMultiplierPower}`;
     },
   },
   [EUpgrades.CRYSTAL_CHANCE]: {
@@ -158,6 +175,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -244,6 +263,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -271,6 +292,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -304,6 +327,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     count: 0,
     currentCap: 0,
     caps: [
@@ -330,6 +355,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.ENDLESS,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     caps: [
@@ -365,6 +392,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.WITH_COUNT,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     maxCount: 50,
@@ -383,7 +412,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
       },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
-      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.toFixed(5)}, money)^${parameters.logMultiplierPower} -> log(${parameters.logMultiplierBase.toFixed(5)}, money)^${parameters.logMultiplierPower.copy().plus(parameters.logMultiplierPowerIncrease)}`;
+      return `Logarithmic multiplier: log(${parameters.logMultiplierBase.toPrecision(4)}, money)^${parameters.logMultiplierPower} -> log(${parameters.logMultiplierBase.toPrecision(4)}, money)^${parameters.logMultiplierPower.copy().plus(parameters.logMultiplierPowerIncrease)}`;
     },
   },
   [EUpgrades.CRYSTAL_CHANCE_BY_MONEY]: {
@@ -393,6 +422,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.WITH_COUNT,
+    isUnlocked: false,
+    isResetOnPrestige: true,
     count: 0,
     currentCap: 0,
     maxCount: 100,
@@ -420,6 +451,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.WITH_COUNT,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     count: 0,
     currentCap: 0,
     maxCount: 10,
@@ -450,6 +483,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.MONEY,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: true,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(1500),
@@ -467,6 +502,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(5000),
@@ -489,6 +526,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNIQUE,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(100000000),
@@ -511,6 +550,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(50000),
@@ -533,17 +574,50 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNIQUE,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
-        cost: new BigNumber(50000),
+        cost: new BigNumber(50000000),
         resourceType: EResources.MONEY,
       },
       {
-        cost: new BigNumber(6),
+        cost: new BigNumber(10),
         resourceType: EResources.CRYSTAL,
+      },
+      {
+        cost: new BigNumber(25),
+        resourceType: EResources.PRESTIGE_POINT,
       },
     ],
     createTooltip(_: TParameters): string | undefined {
+      return undefined;
+    },
+  },
+  [EUpgrades.UNLOCK_MORE_UPGRADES_1]: {
+    bought: false,
+    name: 'Unlock more upgrades 1',
+    description: 'Added first pack of useful upgrades just for you <3',
+    tier: EUpgradeTier.UNIQUE,
+    type: EUpgradeType.PRESTIGE,
+    buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
+    costs: [
+      {
+        cost: new BigNumber(10, 1),
+        resourceType: EResources.MONEY,
+      },
+      {
+        cost: new BigNumber(20),
+        resourceType: EResources.CRYSTAL,
+      },
+      {
+        cost: new BigNumber(50),
+        resourceType: EResources.PRESTIGE_POINT,
+      },
+    ],
+    createTooltip: (_: TParameters): string | undefined => {
       return undefined;
     },
   },
@@ -554,6 +628,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.COMMON,
     type: EUpgradeType.CRYSTAL,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(100000),
@@ -575,6 +651,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNCOMMON,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(50),
@@ -596,6 +674,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     tier: EUpgradeTier.UNIQUE,
     type: EUpgradeType.RUBY,
     buyType: EUpgradeBuyType.ONE_TIME,
+    isUnlocked: false,
+    isResetOnPrestige: false,
     costs: [
       {
         cost: new BigNumber(5),

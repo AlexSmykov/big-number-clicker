@@ -241,6 +241,11 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+
+    if (anotherNumber.currentValue === 1) {
+      return this;
+    }
+
     const newNumber = new BigNumber(Math.log10(this.currentValue), this.depth);
     newNumber.multiply(anotherNumber);
 

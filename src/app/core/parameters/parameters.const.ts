@@ -21,9 +21,6 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   simpleMultiplierCoefficientIncrease: new BigNumber(3),
   simpleMultiplierPower: new BigNumber(1),
   simpleMultiplierPowerCoefficient: new BigNumber(0.1),
-  simplePower: new BigNumber(1),
-  simplePowerCoefficient: new BigNumber(0.1),
-  simplePowerCoefficientIncrease: new BigNumber(1.5),
 
   crystalChance: 100,
   crystalChanceIncrease: 10,

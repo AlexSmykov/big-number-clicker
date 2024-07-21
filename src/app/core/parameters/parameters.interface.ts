@@ -20,9 +20,6 @@ export type TParameters = {
   simpleMultiplierCoefficientIncrease: BigNumber;
   simpleMultiplierPower: BigNumber;
   simpleMultiplierPowerCoefficient: BigNumber;
-  simplePower: BigNumber;
-  simplePowerCoefficient: BigNumber;
-  simplePowerCoefficientIncrease: BigNumber;
 
   crystalChance: number;
   crystalChanceIncrease: number;

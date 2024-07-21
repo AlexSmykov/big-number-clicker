@@ -1,133 +1,153 @@
 <section class="upgrades-wrapper flex-column">
-  <app-resources></app-resources>
-  <div class="upgrades flex-row">
-    @if (unlocks(); as unlocks) {
-      @if (upgrades$ | async; as upgrades) {
-        <app-upgrade
-          class="upgrade"
-          [upgrade]="upgrades[EUpgrades.SIMPLE_MULTIPLIER]"
-          [tooltipText]="upgrades[EUpgrades.SIMPLE_MULTIPLIER].tooltip"
-          (buy)="buyUpgrade(EUpgrades.SIMPLE_MULTIPLIER)"
-        ></app-upgrade>
+  <app-resources />
 
-        @if (upgrades[EUpgrades.UNLOCK_CRYSTALS]; as upgrade) {
-          @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
+  @if (unlocks(); as unlocks) {
+    <div class="filters flex-column">
+      <div class="filters-line flex-row">
+        <button
+          class="filter-button f-normal"
+          [class.selected]="typeFilterValue() === null"
+          (click)="setTypeFilter(null)"
+        >
+          All
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="typeFilterValue() === EUpgradeType.MONEY"
+          [style.border-color]="RESOURCE_DATA[EResources.MONEY].iconColor"
+          (click)="setTypeFilter(EUpgradeType.MONEY)"
+        >
+          Money
+        </button>
+
+        @if (unlocks[EUnlocks.CRYSTALS]) {
+          <button
+            class="filter-button f-normal"
+            [class.selected]="typeFilterValue() === EUpgradeType.CRYSTAL"
+            [style.border-color]="RESOURCE_DATA[EResources.CRYSTAL].iconColor"
+            (click)="setTypeFilter(EUpgradeType.CRYSTAL)"
+          >
+            Crystals
+          </button>
+        }
+
+        @if (unlocks[EUnlocks.PRESTIGE]) {
+          <button
+            class="filter-button f-normal"
+            [class.selected]="typeFilterValue() === EUpgradeType.PRESTIGE"
+            [style.border-color]="
+              RESOURCE_DATA[EResources.PRESTIGE_POINT].iconColor
+            "
+            (click)="setTypeFilter(EUpgradeType.PRESTIGE)"
+          >
+            Prestige
+          </button>
+        }
+
+        @if (unlocks[EUnlocks.RUBY]) {
+          <button
+            class="filter-button f-normal"
+            [class.selected]="typeFilterValue() === EUpgradeType.RUBY"
+            [style.border-color]="RESOURCE_DATA[EResources.RUBY].iconColor"
+            (click)="setTypeFilter(EUpgradeType.RUBY)"
+          >
+            Ruby
+          </button>
+        }
+      </div>
+      <div class="filters-line flex-row">
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === null"
+          (click)="setTierFilter(null)"
+        >
+          All
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.COMMON"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.COMMON]"
+          (click)="setTierFilter(EUpgradeTier.COMMON)"
+        >
+          Common
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.UNCOMMON"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.UNCOMMON]"
+          (click)="setTierFilter(EUpgradeTier.UNCOMMON)"
+        >
+          Uncommon
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.UNIQUE"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.UNIQUE]"
+          (click)="setTierFilter(EUpgradeTier.UNIQUE)"
+        >
+          Unique
+        </button>
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.RARE"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.RARE]"
+          (click)="setTierFilter(EUpgradeTier.RARE)"
+        >
+          Rare
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.EPIC"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.EPIC]"
+          (click)="setTierFilter(EUpgradeTier.EPIC)"
+        >
+          Epic
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.LEGENDARY"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.LEGENDARY]"
+          (click)="setTierFilter(EUpgradeTier.LEGENDARY)"
+        >
+          Legendary
+        </button>
+
+        <button
+          class="filter-button f-normal"
+          [class.selected]="tierFilterValue() === EUpgradeTier.MYTHIC"
+          [style.border-color]="TIER_COLORS[EUpgradeTier.MYTHIC]"
+          (click)="setTierFilter(EUpgradeTier.MYTHIC)"
+        >
+          Mythic
+        </button>
+      </div>
+    </div>
+
+    <div class="upgrades flex-row">
+      @if (upgrades$ | async; as upgrades) {
+        @for (upgrade of upgrades; track upgrade.key) {
+          @if (
+            upgrade.isUnlocked &&
+            ((isOneTimeUpgrade(upgrade) && !upgrade.bought) ||
+              (isCountableUpgrade(upgrade) &&
+                upgrade.count < upgrade.maxCount) ||
+              isEndlessUpgrade(upgrade))
+          ) {
             <app-upgrade
               class="upgrade"
-              [upgrade]="upgrades[EUpgrades.UNLOCK_CRYSTALS]"
-              [tooltipText]="upgrades[EUpgrades.UNLOCK_CRYSTALS].tooltip"
-              (buy)="buyUpgrade(EUpgrades.UNLOCK_CRYSTALS)"
+              [upgrade]="upgrade"
+              [tooltipText]="upgrade.tooltip"
+              (buy)="buyUpgrade(upgrade.key)"
             ></app-upgrade>
           }
         }
-
-        <app-upgrade
-          class="upgrade"
-          [upgrade]="upgrades[EUpgrades.SIMPLE_MULTIPLIER_BOOST]"
-          [tooltipText]="upgrades[EUpgrades.SIMPLE_MULTIPLIER_BOOST].tooltip"
-          (buy)="buyUpgrade(EUpgrades.SIMPLE_MULTIPLIER_BOOST)"
-        ></app-upgrade>
-
-        @if (unlocks.CRYSTALS) {
-          <app-upgrade
-            class="upgrade"
-            [upgrade]="upgrades[EUpgrades.CRYSTAL_MULTIPLIER]"
-            [tooltipText]="upgrades[EUpgrades.CRYSTAL_MULTIPLIER].tooltip"
-            (buy)="buyUpgrade(EUpgrades.CRYSTAL_MULTIPLIER)"
-          ></app-upgrade>
-
-          <app-upgrade
-            class="upgrade"
-            [upgrade]="upgrades[EUpgrades.CRYSTAL_CHANCE]"
-            [tooltipText]="upgrades[EUpgrades.CRYSTAL_CHANCE].tooltip"
-            (buy)="buyUpgrade(EUpgrades.CRYSTAL_CHANCE)"
-          ></app-upgrade>
-
-          @if (upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT]; as upgrade) {
-            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
-              <app-upgrade
-                class="upgrade"
-                [upgrade]="upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT]"
-                [tooltipText]="
-                  upgrades[EUpgrades.UNLOCK_SETTINGS_AND_ABOUT].tooltip
-                "
-                (buy)="buyUpgrade(EUpgrades.UNLOCK_SETTINGS_AND_ABOUT)"
-              ></app-upgrade>
-            }
-          }
-
-          @if (upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER]; as upgrade) {
-            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
-              <app-upgrade
-                class="upgrade"
-                [upgrade]="upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER]"
-                [tooltipText]="
-                  upgrades[EUpgrades.UNLOCK_LOG_MULTIPLIER].tooltip
-                "
-                (buy)="buyUpgrade(EUpgrades.UNLOCK_LOG_MULTIPLIER)"
-              ></app-upgrade>
-            }
-          }
-
-          @if (upgrades[EUpgrades.UNLOCK_PRESTIGE]; as upgrade) {
-            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
-              <app-upgrade
-                class="upgrade"
-                [upgrade]="upgrades[EUpgrades.UNLOCK_PRESTIGE]"
-                [tooltipText]="upgrades[EUpgrades.UNLOCK_PRESTIGE].tooltip"
-                (buy)="buyUpgrade(EUpgrades.UNLOCK_PRESTIGE)"
-              ></app-upgrade>
-            }
-          }
-        }
-
-        @if (unlocks.LOG_MULTIPLIER) {
-          <app-upgrade
-            class="upgrade"
-            [upgrade]="upgrades[EUpgrades.LOG_MULTIPLIER_BASE]"
-            [tooltipText]="upgrades[EUpgrades.LOG_MULTIPLIER_BASE].tooltip"
-            (buy)="buyUpgrade(EUpgrades.LOG_MULTIPLIER_BASE)"
-          ></app-upgrade>
-
-          <app-upgrade
-            class="upgrade"
-            [upgrade]="upgrades[EUpgrades.LOG_MULTIPLIER_POWER]"
-            [tooltipText]="upgrades[EUpgrades.LOG_MULTIPLIER_POWER].tooltip"
-            (buy)="buyUpgrade(EUpgrades.LOG_MULTIPLIER_POWER)"
-          ></app-upgrade>
-        }
-
-        @if (unlocks.MORE_UPGRADES_1) {
-          <app-upgrade
-            class="upgrade"
-            [upgrade]="upgrades[EUpgrades.CRYSTAL_CHANCE_BY_MONEY]"
-            [tooltipText]="upgrades[EUpgrades.CRYSTAL_CHANCE_BY_MONEY].tooltip"
-            (buy)="buyUpgrade(EUpgrades.CRYSTAL_CHANCE_BY_MONEY)"
-          ></app-upgrade>
-
-          @if (upgrades[EUpgrades.FLAT_BONUS]; as upgrade) {
-            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
-              <app-upgrade
-                class="upgrade"
-                [upgrade]="upgrades[EUpgrades.FLAT_BONUS]"
-                [tooltipText]="upgrades[EUpgrades.FLAT_BONUS].tooltip"
-                (buy)="buyUpgrade(EUpgrades.FLAT_BONUS)"
-              ></app-upgrade>
-            }
-          }
-
-          @if (upgrades[EUpgrades.UNLOCK_RUBIES]; as upgrade) {
-            @if (isOneTimeUpgrade(upgrade) && !upgrade.bought) {
-              <app-upgrade
-                class="upgrade"
-                [upgrade]="upgrades[EUpgrades.UNLOCK_RUBIES]"
-                [tooltipText]="upgrades[EUpgrades.UNLOCK_RUBIES].tooltip"
-                (buy)="buyUpgrade(EUpgrades.UNLOCK_RUBIES)"
-              ></app-upgrade>
-            }
-          }
-        }
       }
-    }
-  </div>
+    </div>
+  }
 </section>

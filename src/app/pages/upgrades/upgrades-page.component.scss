@@ -2,6 +2,36 @@
   height: 100vh;
   gap: 0;
 
+  .filters {
+    width: calc(100% - 40px * 2);
+
+    padding: 20px 40px;
+
+    align-items: stretch;
+    gap: 16px;
+
+    border-bottom: 2px solid var(--light);
+
+    .filters-line {
+      width: 100%;
+    }
+
+    .filter-button {
+      flex: 1;
+      border: 5px solid var(--light);
+      outline: none;
+      background: var(--dark);
+      color: var(--light);
+
+      padding: 10px;
+      opacity: 0.5;
+
+      &.selected {
+        opacity: 1;
+      }
+    }
+  }
+
   .upgrades {
     padding: 30px;
     overflow-y: auto;
