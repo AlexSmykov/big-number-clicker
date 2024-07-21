@@ -59,4 +59,8 @@ export class ParametersService {
   getAllParameters$(): Observable<TParameters> {
     return this._parameters$.asObservable();
   }
+
+  setParameters(parameters: TParameters): void {
+    this._parameters$.next(parameters);
+  }
 }

@@ -8,8 +8,12 @@ import { LocalStorageService } from 'src/app/core/storage/local-storage.service'
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
 import { parseLoadedValue } from 'src/app/core/utils/core.utils';
 import { TSavedValue } from 'src/app/core/interfaces/core.interface';
+import {
+  TUpgradeConstantCost,
+  TUpgradeCost,
+} from 'src/app/core/upgrades/upgrade.interface';
 
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ResourcesService {
@@ -64,5 +68,15 @@ export class ResourcesService {
     const resources = this._resource$.getValue();
     resources[resourceKey] = value;
     this._resource$.next(resources);
+  }
+
+  spentResources(upgradeCosts: TUpgradeCost[] | TUpgradeConstantCost[]): void {
+    upgradeCosts.forEach((upgradeCost) => {
+      this.getResource$(upgradeCost.resourceType)
+        .pipe(take(1))
+        .subscribe((resource) => {
+          resource.minus(upgradeCost.cost);
+        });
+    });
   }
 }
