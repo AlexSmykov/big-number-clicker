@@ -1,8 +1,32 @@
 <div class="resources-wrapper flex-row">
   <div class="resources flex-row">
-    @if (resources$ | async; as resources) {
-      @for (resource of resources; track resource) {
-        <app-resource [resource]="resource"></app-resource>
+    @if (unlocks(); as unlocks) {
+      @if (resources$ | async; as resources) {
+        <app-resource
+          [resource]="EResourcesData[EResources.MONEY]"
+          [value]="resources[EResources.MONEY]"
+        ></app-resource>
+
+        @if (unlocks[EUnlocks.CRYSTALS]) {
+          <app-resource
+            [resource]="EResourcesData[EResources.CRYSTAL]"
+            [value]="resources[EResources.CRYSTAL]"
+          ></app-resource>
+        }
+
+        @if (unlocks[EUnlocks.PRESTIGE]) {
+          <app-resource
+            [resource]="EResourcesData[EResources.PRESTIGE_POINT]"
+            [value]="resources[EResources.PRESTIGE_POINT]"
+          ></app-resource>
+        }
+
+        @if (unlocks[EUnlocks.RUBIES]) {
+          <app-resource
+            [resource]="EResourcesData[EResources.RUBY]"
+            [value]="resources[EResources.RUBY]"
+          ></app-resource>
+        }
       }
     }
   </div>
