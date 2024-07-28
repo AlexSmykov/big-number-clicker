@@ -12,13 +12,13 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   baseMoneyRate: {
     name: '',
     isVisible: false,
-    value: new BigNumber(100),
+    value: new BigNumber(2),
     isPercent: false,
   },
   baseCrystalRate: {
     name: '',
     isVisible: false,
-    value: new BigNumber(100),
+    value: new BigNumber(2),
     isPercent: false,
   },
   basePrestigeRate: {

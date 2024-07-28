@@ -577,9 +577,8 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
   },
   [EUpgrades.UNLOCK_RUBIES]: {
     bought: false,
-    name: 'Unlock Logarithmic Multiplier',
-    description:
-      'This multiplier based on your current money: more have - more will gain!',
+    name: 'Unlock rubies',
+    description: 'New era of upgrades and grinding after prestige!',
     tier: EUpgradeTier.UNIQUE,
     type: EUpgradeType.PRESTIGE,
     buyType: EUpgradeBuyType.ONE_TIME,

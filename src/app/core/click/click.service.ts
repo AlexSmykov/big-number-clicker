@@ -48,9 +48,9 @@ export class ClickService {
         if (unlocks.CRYSTALS && rollChance(parameters.crystalChance.value)) {
           const crystals = resources.CRYSTAL.copy();
           crystals.plus(
-            parameters.baseCrystalRate.value.multiply(
-              parameters.crystalMultiplier.value
-            )
+            parameters.baseCrystalRate.value
+              .copy()
+              .multiply(parameters.crystalGainMultiplier.value)
           );
           this.resourcesService.setResource(crystals, EResources.CRYSTAL);
 

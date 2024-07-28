@@ -42,6 +42,7 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+    anotherNumber = anotherNumber.copy();
 
     if (anotherNumber.currentValue === 0) {
       return this;
@@ -110,6 +111,7 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+    anotherNumber = anotherNumber.copy();
 
     if (anotherNumber.currentValue === 0) {
       return this;
@@ -167,6 +169,7 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+    anotherNumber = anotherNumber.copy();
 
     if (anotherNumber.depth === 0) {
       if (this.depth === 0) {
@@ -199,6 +202,7 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+    anotherNumber = anotherNumber.copy();
 
     if (
       anotherNumber.depth === this.depth &&
@@ -241,6 +245,7 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+    anotherNumber = anotherNumber.copy();
 
     if (anotherNumber.currentValue === 1) {
       return this;
@@ -261,6 +266,7 @@ export class BigNumber {
     if (typeof anotherNumber === 'number') {
       anotherNumber = new BigNumber(anotherNumber);
     }
+    anotherNumber = anotherNumber.copy();
 
     if (
       anotherNumber.depth === this.depth &&
@@ -287,6 +293,7 @@ export class BigNumber {
     if (typeof base === 'number') {
       base = new BigNumber(base);
     }
+    base = base.copy();
 
     if (base.depth === 0) {
       if (this.depth === 0) {
