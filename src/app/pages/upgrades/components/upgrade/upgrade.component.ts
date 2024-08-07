@@ -1,6 +1,6 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TippyDirective } from '@ngneat/helipopper';
 import { toObservable } from '@angular/core/rxjs-interop';
 
@@ -18,7 +18,7 @@ import {
 } from 'src/app/core/upgrades/upgrade.const';
 import { RESOURCE_DATA } from 'src/app/core/resources/resources.const';
 
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, Subject, switchMap, take } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -28,7 +28,7 @@ import { combineLatest, map } from 'rxjs';
   standalone: true,
   imports: [AsyncPipe, ResourceComponent, TippyDirective, JsonPipe],
 })
-export default class UpgradeComponent {
+export default class UpgradeComponent implements OnInit {
   readonly upgrade = input.required<TUpgrade>();
   readonly tooltipText = input<string | undefined>(undefined);
 
@@ -59,8 +59,63 @@ export default class UpgradeComponent {
     })
   );
 
+  buyHoldTimer?: number;
+  buyTimer?: number;
+  buyCount = 0;
+  buyTimerTrigger$ = new Subject<void>();
+
+  ngOnInit() {
+    this.subOnBuyTimerTrigger();
+  }
+
+  subOnBuyTimerTrigger(): void {
+    this.buyTimerTrigger$
+      .pipe(
+        untilDestroyed(this),
+        switchMap(() => this.availableToBuy$.pipe(take(1)))
+      )
+      .subscribe((isAvailable) => {
+        if (isAvailable && this.buy) {
+          this.onBuy();
+          return;
+        }
+
+        this.clearTimes();
+      });
+  }
+
   onBuy(): void {
     this.buy.emit();
+  }
+
+  buyMouseDown(): void {
+    this.buyHoldTimer = setTimeout(() => {
+      this.setHoldInterval();
+    }, 300);
+  }
+
+  setHoldInterval(): void {
+    this.buyTimer = setTimeout(
+      () => {
+        this.buyTimerTrigger$.next();
+        this.buyCount++;
+        this.setHoldInterval();
+      },
+      Math.max(100 - this.buyCount * 2, 5)
+    );
+  }
+
+  buyMouseUp(): void {
+    this.clearTimes();
+  }
+
+  private clearTimes(): void {
+    clearTimeout(this.buyHoldTimer);
+    clearInterval(this.buyTimer);
+
+    this.buyHoldTimer = undefined;
+    this.buyTimer = undefined;
+    this.buyCount = 0;
   }
 
   protected readonly TIER_COLORS = TIER_COLORS;
