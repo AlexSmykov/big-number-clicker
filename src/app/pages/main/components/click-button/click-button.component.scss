@@ -1,0 +1,41 @@
+.button-wrapper {
+  height: 300px;
+
+  margin-top: 20px;
+
+  justify-content: space-between;
+
+  .click-button {
+    width: 300px;
+    height: 250px;
+    margin: 0;
+
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 16px 0 1px var(--dark-gray);
+    border-bottom-width: 10px;
+
+    transition: 0.05s;
+    background: var(--light);
+    cursor: pointer;
+
+    user-select: none;
+
+    &:hover {
+      background: var(--light-gray);
+    }
+
+    &:active {
+      box-shadow: 0 4px 0 2px var(--dark-gray);
+      margin-top: 12px;
+      background: var(--gray);
+    }
+  }
+
+  .next-income {
+    width: 100%;
+
+    color: var(--light);
+    text-align: center;
+  }
+}

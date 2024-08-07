@@ -1,0 +1,19 @@
+.resources-wrapper {
+  width: 100%;
+
+  justify-content: center;
+
+  padding: 5px 0;
+  border-bottom: 2px solid var(--light);
+
+  .resources {
+    width: 80%;
+    height: fit-content;
+
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.tooltip-description {
+}

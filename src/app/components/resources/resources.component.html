@@ -1,0 +1,31 @@
+<div class="resources-wrapper flex-row">
+  <div class="resources flex-row">
+    @if (allInfo$ | async; as info) {
+      <app-resource
+        [resource]="RESOURCE_DATA[EResources.MONEY]"
+        [value]="info.resources[EResources.MONEY]"
+      ></app-resource>
+
+      @if (info.unlocks[EUnlocks.CRYSTALS]) {
+        <app-resource
+          [resource]="RESOURCE_DATA[EResources.CRYSTAL]"
+          [value]="info.resources[EResources.CRYSTAL]"
+        ></app-resource>
+      }
+
+      @if (info.unlocks[EUnlocks.PRESTIGE]) {
+        <app-resource
+          [resource]="RESOURCE_DATA[EResources.PRESTIGE_POINT]"
+          [value]="info.resources[EResources.PRESTIGE_POINT]"
+        ></app-resource>
+      }
+
+      @if (info.unlocks[EUnlocks.RUBY]) {
+        <app-resource
+          [resource]="RESOURCE_DATA[EResources.RUBY]"
+          [value]="info.resources[EResources.RUBY]"
+        ></app-resource>
+      }
+    }
+  </div>
+</div>

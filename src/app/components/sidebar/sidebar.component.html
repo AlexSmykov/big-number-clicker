@@ -1,0 +1,90 @@
+<div class="sidebar">
+  @if (allInfo$ | async; as info) {
+    <button
+      class="sidebar__button"
+      [class.selected]="
+        (EFullRoutes[pageButtons[EPages.MAIN].routePath] | appJoin) === url()
+      "
+      [routerLink]="EFullRoutes[pageButtons[EPages.MAIN].routePath]"
+    >
+      <svg-icon
+        class="sidebar__button__icon"
+        [src]="pageButtons[EPages.MAIN].iconPath"
+      ></svg-icon>
+      <p class="sidebar__button__text f-big">
+        {{ pageButtons[EPages.MAIN].title }}
+      </p>
+    </button>
+
+    <button
+      class="sidebar__button"
+      [class.selected]="
+        (EFullRoutes[pageButtons[EPages.UPGRADES].routePath] | appJoin) ===
+        url()
+      "
+      [routerLink]="EFullRoutes[pageButtons[EPages.UPGRADES].routePath]"
+    >
+      <svg-icon
+        class="sidebar__button__icon"
+        [src]="pageButtons[EPages.UPGRADES].iconPath"
+      ></svg-icon>
+      <p class="sidebar__button__text f-big">
+        {{ pageButtons[EPages.UPGRADES].title }}
+      </p>
+    </button>
+
+    @if (info.unlocks[EUnlocks.PRESTIGE]) {
+      <button
+        class="sidebar__button"
+        [class.selected]="
+          (EFullRoutes[pageButtons[EPages.PRESTIGE].routePath] | appJoin) ===
+          url()
+        "
+        [routerLink]="EFullRoutes[pageButtons[EPages.PRESTIGE].routePath]"
+      >
+        <svg-icon
+          class="sidebar__button__icon"
+          [src]="pageButtons[EPages.PRESTIGE].iconPath"
+        ></svg-icon>
+        <p class="sidebar__button__text f-big">
+          {{ pageButtons[EPages.PRESTIGE].title }}
+        </p>
+      </button>
+    }
+
+    @if (info.unlocks[EUnlocks.SETTINGS_AND_ABOUT]) {
+      <button
+        class="sidebar__button"
+        [class.selected]="
+          (EFullRoutes[pageButtons[EPages.SETTINGS].routePath] | appJoin) ===
+          url()
+        "
+        [routerLink]="EFullRoutes[pageButtons[EPages.SETTINGS].routePath]"
+      >
+        <svg-icon
+          class="sidebar__button__icon"
+          [src]="pageButtons[EPages.SETTINGS].iconPath"
+        ></svg-icon>
+        <p class="sidebar__button__text f-big">
+          {{ pageButtons[EPages.SETTINGS].title }}
+        </p>
+      </button>
+
+      <button
+        class="sidebar__button"
+        [class.selected]="
+          (EFullRoutes[pageButtons[EPages.ABOUT].routePath] | appJoin) === url()
+        "
+        [routerLink]="EFullRoutes[pageButtons[EPages.ABOUT].routePath]"
+      >
+        <svg-icon
+          class="sidebar__button__icon"
+          [src]="pageButtons[EPages.ABOUT].iconPath"
+        ></svg-icon>
+        <p class="sidebar__button__text f-big">
+          {{ pageButtons[EPages.ABOUT].title }}
+        </p>
+      </button>
+    }
+  }
+</div>
