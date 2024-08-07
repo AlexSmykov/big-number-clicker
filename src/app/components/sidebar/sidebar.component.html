@@ -1,5 +1,5 @@
 <div class="sidebar">
-  @if (unlocks(); as unlocks) {
+  @if (allInfo$ | async; as info) {
     <button
       class="sidebar__button"
       [class.selected]="
@@ -33,7 +33,7 @@
       </p>
     </button>
 
-    @if (unlocks[EUnlocks.PRESTIGE]) {
+    @if (info.unlocks[EUnlocks.PRESTIGE]) {
       <button
         class="sidebar__button"
         [class.selected]="
@@ -52,7 +52,7 @@
       </button>
     }
 
-    @if (unlocks[EUnlocks.SETTINGS_AND_ABOUT]) {
+    @if (info.unlocks[EUnlocks.SETTINGS_AND_ABOUT]) {
       <button
         class="sidebar__button"
         [class.selected]="

@@ -64,6 +64,8 @@
     <button
       class="buy-button"
       [disabled]="(availableToBuy$ | async) === false"
+      (mousedown)="buyMouseDown()"
+      (mouseup)="buyMouseUp()"
       (click)="onBuy()"
     >
       <p class="f-normal">Buy</p>

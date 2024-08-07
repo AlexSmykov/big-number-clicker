@@ -5,8 +5,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import ResourcesComponent from 'src/app/components/resources/resources.component';
 import UpgradeComponent from 'src/app/pages/upgrades/components/upgrade/upgrade.component';
 import { UpgradeService } from 'src/app/core/upgrades/upgrade.service';
-import { ParametersService } from 'src/app/core/parameters/parameters.service';
-import { UnlocksService } from 'src/app/core/unlocks/unlocks.service';
 import {
   EUpgrades,
   EUpgradeTier,
@@ -23,6 +21,7 @@ import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
 import { EResources } from 'src/app/core/resources/resources.enum';
 import { RESOURCE_DATA } from 'src/app/core/resources/resources.const';
 import { TIER_COLORS } from 'src/app/core/upgrades/upgrade.const';
+import { AllInfoService } from 'src/app/core/all-info/all-info.service';
 
 import { BehaviorSubject, combineLatest, map, take } from 'rxjs';
 
@@ -34,12 +33,12 @@ import { BehaviorSubject, combineLatest, map, take } from 'rxjs';
   imports: [ResourcesComponent, UpgradeComponent, AsyncPipe],
 })
 export default class UpgradesPageComponent {
+  private readonly allInfoService = inject(AllInfoService);
+
   private readonly upgradeService = inject(UpgradeService);
   private readonly resourcesService = inject(ResourcesService);
-  private readonly parametersService = inject(ParametersService);
-  private readonly unlocksService = inject(UnlocksService);
 
-  readonly unlocks = toSignal(this.unlocksService.getAllUnlocks$());
+  readonly allInfo$ = this.allInfoService.allInfoObject$;
 
   readonly isOneTimeUpgrade = isOneTimeUpgrade;
   readonly isCountableUpgrade = isCountableUpgrade;
@@ -60,13 +59,11 @@ export default class UpgradesPageComponent {
   tierFilterValue = toSignal(this.tierFilter$);
 
   upgrades$ = combineLatest([
-    this.upgradeService.getAllUpgrades$(),
-    this.parametersService.getAllParameters$(),
-    this.unlocksService.getAllUnlocks$(),
+    this.allInfoService.allInfo$,
     this.tierFilter$,
     this.typeFilter$,
   ]).pipe(
-    map(([upgrades, parameters, unlocks, tierFilter, typeFilter]) =>
+    map(([[upgrades, parameters], tierFilter, typeFilter]) =>
       Object.entries(upgrades)
         .map(
           ([key, value]): TUpgrade & {

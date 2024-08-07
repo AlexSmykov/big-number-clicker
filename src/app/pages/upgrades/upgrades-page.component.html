@@ -1,7 +1,7 @@
 <section class="upgrades-wrapper flex-column">
   <app-resources />
 
-  @if (unlocks(); as unlocks) {
+  @if (allInfo$ | async; as info) {
     <div class="filters flex-column">
       <div class="filters-line flex-row">
         <button
@@ -21,7 +21,7 @@
           Money
         </button>
 
-        @if (unlocks[EUnlocks.CRYSTALS]) {
+        @if (info.unlocks[EUnlocks.CRYSTALS]) {
           <button
             class="filter-button f-normal"
             [class.selected]="typeFilterValue() === EUpgradeType.CRYSTAL"
@@ -32,7 +32,7 @@
           </button>
         }
 
-        @if (unlocks[EUnlocks.PRESTIGE]) {
+        @if (info.unlocks[EUnlocks.PRESTIGE]) {
           <button
             class="filter-button f-normal"
             [class.selected]="typeFilterValue() === EUpgradeType.PRESTIGE"
@@ -45,7 +45,7 @@
           </button>
         }
 
-        @if (unlocks[EUnlocks.RUBY]) {
+        @if (info.unlocks[EUnlocks.RUBY]) {
           <button
             class="filter-button f-normal"
             [class.selected]="typeFilterValue() === EUpgradeType.RUBY"
