@@ -10,6 +10,11 @@ h5,
 h6 {
   margin: 0;
   font-family: "Poppins", sans-serif;
+  color: var(--light);
+}
+
+button p {
+  color: var(--dark);
 }
 
 .f-small {

@@ -1,32 +1,30 @@
 <div class="resources-wrapper flex-row">
   <div class="resources flex-row">
-    @if (unlocks(); as unlocks) {
-      @if (resources$ | async; as resources) {
+    @if (allInfo$ | async; as info) {
+      <app-resource
+        [resource]="RESOURCE_DATA[EResources.MONEY]"
+        [value]="info.resources[EResources.MONEY]"
+      ></app-resource>
+
+      @if (info.unlocks[EUnlocks.CRYSTALS]) {
         <app-resource
-          [resource]="RESOURCE_DATA[EResources.MONEY]"
-          [value]="resources[EResources.MONEY]"
+          [resource]="RESOURCE_DATA[EResources.CRYSTAL]"
+          [value]="info.resources[EResources.CRYSTAL]"
         ></app-resource>
+      }
 
-        @if (unlocks[EUnlocks.CRYSTALS]) {
-          <app-resource
-            [resource]="RESOURCE_DATA[EResources.CRYSTAL]"
-            [value]="resources[EResources.CRYSTAL]"
-          ></app-resource>
-        }
+      @if (info.unlocks[EUnlocks.PRESTIGE]) {
+        <app-resource
+          [resource]="RESOURCE_DATA[EResources.PRESTIGE_POINT]"
+          [value]="info.resources[EResources.PRESTIGE_POINT]"
+        ></app-resource>
+      }
 
-        @if (unlocks[EUnlocks.PRESTIGE]) {
-          <app-resource
-            [resource]="RESOURCE_DATA[EResources.PRESTIGE_POINT]"
-            [value]="resources[EResources.PRESTIGE_POINT]"
-          ></app-resource>
-        }
-
-        @if (unlocks[EUnlocks.RUBY]) {
-          <app-resource
-            [resource]="RESOURCE_DATA[EResources.RUBY]"
-            [value]="resources[EResources.RUBY]"
-          ></app-resource>
-        }
+      @if (info.unlocks[EUnlocks.RUBY]) {
+        <app-resource
+          [resource]="RESOURCE_DATA[EResources.RUBY]"
+          [value]="info.resources[EResources.RUBY]"
+        ></app-resource>
       }
     }
   </div>

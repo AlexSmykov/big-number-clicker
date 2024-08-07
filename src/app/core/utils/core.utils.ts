@@ -32,10 +32,13 @@ export function parseLoadedValue<T>(value: TSavedValue<T>): T {
 /**
  * Getting chance  and return if chance roll is success
  *
- * @param chance value in range 0-10000
+ * @param chance value in range 0-infinity
  */
-export function rollChance(chance: number): boolean {
-  return Math.random() * 10000 <= chance;
+export function rollChanceMultiple(chance: number): number {
+  return (
+    Math.floor(chance / 10000) +
+    (Math.random() * 10000 <= chance % 10000 ? 1 : 0)
+  );
 }
 
 export function isExhausted(_: never): never {

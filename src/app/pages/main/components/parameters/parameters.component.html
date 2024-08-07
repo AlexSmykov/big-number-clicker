@@ -1,33 +1,31 @@
-@if (parameters$ | async; as parameters) {
-  @if (upgrades$ | async; as upgrades) {
-    @if (parametersKeys$ | async; as keys) {
-      <div class="wrapper">
-        <div class="parameters flex-column">
-          @for (key of keys; track key) {
-            @if (parameters[key].value; as value) {
-              @if (
-                parameters[key].isVisible &&
-                !(
-                  (isBigNumber(value) &&
-                    value.isEqual(PARAMETERS_START_CONFIG[key].value)) ||
-                  value === PARAMETERS_START_CONFIG[key].value
-                )
-              ) {
-                <p class="parameter f-small">
-                  {{ parameters[key].name }}:
-                  @if (
-                    isNumber(value) && PARAMETERS_START_CONFIG[key].isPercent
-                  ) {
-                    {{ value / 100 }}%
-                  } @else {
-                    {{ value }}
-                  }
-                </p>
-              }
+@if (allInfo$ | async; as info) {
+  @if (parametersKeys$ | async; as keys) {
+    <div class="wrapper">
+      <div class="parameters flex-column">
+        @for (key of keys; track key) {
+          @if (info.parameters[key].value; as value) {
+            @if (
+              info.parameters[key].isVisible &&
+              !(
+                (isBigNumber(value) &&
+                  value.isEqual(PARAMETERS_START_CONFIG[key].value)) ||
+                value === PARAMETERS_START_CONFIG[key].value
+              )
+            ) {
+              <p class="parameter f-small">
+                {{ info.parameters[key].name }}:
+                @if (
+                  isNumber(value) && PARAMETERS_START_CONFIG[key].isPercent
+                ) {
+                  {{ value / 100 }}%
+                } @else {
+                  {{ value }}
+                }
+              </p>
             }
           }
-        </div>
+        }
       </div>
-    }
+    </div>
   }
 }

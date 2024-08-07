@@ -1,0 +1,101 @@
+.page {
+  width: 100%;
+
+  align-items: center;
+
+  .current-prestige-stats {
+    width: 100%;
+    height: 300px;
+
+    justify-content: center;
+    align-items: center;
+
+    .available-points {
+      align-items: center;
+
+      .available-points-icon {
+        height: 90px;
+        width: 90px;
+
+        padding-bottom: 8px;
+        color: var(--light);
+      }
+
+      .prestige-border {
+        height: 100px;
+        width: 100px;
+
+        color: var(--coin-color);
+      }
+      .available-points-text {
+        font-size: 100px;
+      }
+    }
+  }
+
+  .info {
+    width: 70%;
+    align-items: center;
+
+    text-align: center;
+  }
+
+  .reset-button-wrapper {
+    margin-top: 60px;
+    align-items: center;
+
+    .reset-button {
+      width: 200px;
+      height: 100px;
+      margin: 0;
+
+      border: none;
+      border-radius: 8px;
+
+      background: var(--light);
+      cursor: pointer;
+
+      user-select: none;
+
+      &:not(.selected) {
+        &:hover {
+          background: var(--light-gray);
+        }
+
+        &:active {
+          background: var(--gray);
+        }
+      }
+
+      &.selected {
+        background: var(--gray);
+      }
+    }
+
+    .confirmation-buttons {
+      gap: 20px;
+
+      .confirmation-button {
+        width: 90px;
+        height: 50px;
+        margin: 0;
+
+        border: none;
+        border-radius: 8px;
+
+        background: var(--light);
+        cursor: pointer;
+
+        user-select: none;
+
+        &:hover {
+          background: var(--light-gray);
+        }
+
+        &:active {
+          background: var(--gray);
+        }
+      }
+    }
+  }
+}

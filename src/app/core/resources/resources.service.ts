@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 import { TResources } from 'src/app/core/resources/resources.interface';
@@ -17,14 +17,20 @@ import { BehaviorSubject, map, Observable, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ResourcesService {
+  private readonly localStorageService = inject(LocalStorageService);
+
   private readonly _resource$ = new BehaviorSubject<TResources>(
     RESOURCES_START_CONFIG
   );
 
   private isHasSavedValue = false;
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor() {
     this.loadResources();
+  }
+
+  updateValues(): void {
+    this._resource$.next(this._resource$.getValue());
   }
 
   private loadResources(): void {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 import { EStorageKeys } from 'src/app/core/storage/local-storage.enum';
@@ -6,19 +6,27 @@ import { PARAMETERS_START_CONFIG } from 'src/app/core/parameters/parameters.cons
 import { TParameters } from 'src/app/core/parameters/parameters.interface';
 import { TSavedValue } from 'src/app/core/interfaces/core.interface';
 import { parseLoadedValue } from 'src/app/core/utils/core.utils';
+import { isBigNumber } from 'src/app/core/models/big-number/big-number.guard';
+import { BigNumber } from 'src/app/core/models/big-number/big-number.model';
 
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ParametersService {
+  private readonly localStorageService = inject(LocalStorageService);
+
   private readonly _parameters$ = new BehaviorSubject<TParameters>(
     PARAMETERS_START_CONFIG
   );
 
   private isHasSavedValue = false;
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor() {
     this.loadParameters();
+  }
+
+  updateValues(): void {
+    this._parameters$.next(this._parameters$.getValue());
   }
 
   private loadParameters(): void {
@@ -50,17 +58,28 @@ export class ParametersService {
     }
   }
 
-  getParameter$(
-    parameterKey: keyof TParameters
-  ): Observable<TParameters[keyof TParameters]> {
-    return this._parameters$.pipe(map((upgrades) => upgrades[parameterKey]));
-  }
-
   getAllParameters$(): Observable<TParameters> {
     return this._parameters$.asObservable();
   }
 
   setParameters(parameters: TParameters): void {
     this._parameters$.next(parameters);
+  }
+
+  resetParameter(parameterKey: keyof TParameters): void {
+    this.getAllParameters$()
+      .pipe(take(1))
+      .subscribe((parameters) => {
+        const parameter = parameters[parameterKey];
+
+        if (isBigNumber(parameter.value)) {
+          parameter.value = (
+            PARAMETERS_START_CONFIG[parameterKey].value as BigNumber
+          ).copy();
+          return;
+        }
+
+        parameter.value = PARAMETERS_START_CONFIG[parameterKey].value;
+      });
   }
 }

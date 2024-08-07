@@ -2,13 +2,14 @@ import { Component, inject } from '@angular/core';
 import { SvgIconComponent } from 'angular-svg-icon';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AsyncPipe } from '@angular/common';
 
 import { SIDEBAR_BUTTONS } from 'src/app/components/sidebar/sidebar.const';
 import { EFullRoutes } from 'src/app/core/router-paths';
 import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
-import { UnlocksService } from 'src/app/core/unlocks/unlocks.service';
 import { EPages } from 'src/app/components/sidebar/sidebar.enum';
 import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
+import { AllInfoService } from 'src/app/core/all-info/all-info.service';
 
 import { filter, map } from 'rxjs';
 
@@ -17,13 +18,15 @@ import { filter, map } from 'rxjs';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
   standalone: true,
-  imports: [SvgIconComponent, RouterLink, JoinPipe],
+  imports: [SvgIconComponent, RouterLink, JoinPipe, AsyncPipe],
 })
 export default class SidebarComponent {
   private readonly router = inject(Router);
-  private readonly unlocksService = inject(UnlocksService);
 
-  readonly unlocks = toSignal(this.unlocksService.getAllUnlocks$());
+  private readonly AllInfoService = inject(AllInfoService);
+
+  readonly allInfo$ = this.AllInfoService.allInfoObject$;
+
   readonly url = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -32,6 +35,6 @@ export default class SidebarComponent {
   );
   readonly pageButtons = SIDEBAR_BUTTONS;
   readonly EFullRoutes = EFullRoutes;
-  protected readonly EPages = EPages;
-  protected readonly EUnlocks = EUnlocks;
+  readonly EPages = EPages;
+  readonly EUnlocks = EUnlocks;
 }

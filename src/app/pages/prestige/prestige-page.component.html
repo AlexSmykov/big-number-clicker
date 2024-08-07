@@ -1,0 +1,86 @@
+<section class="page flex-column">
+  <div class="current-prestige-stats flex-column">
+    @if (availableToPrestige$ | async) {
+      <p class="f-big">Available points:</p>
+
+      <div class="available-points flex-row">
+        <svg-icon
+          class="available-points-icon"
+          src="assets/icons/resources/p-letter.svg"
+        />
+        <p class="available-points-text">
+          {{ availablePrestigePoints$ | async }}
+        </p>
+      </div>
+
+      <div class="flex-row">
+        <p class="f-big">
+          Current points: {{ currentPrestigePoints$ | async }}
+        </p>
+      </div>
+    } @else {
+      <p class="f-big warning">
+        You need more money to perform prestige. Current prestige border:
+      </p>
+
+      <div class="available-points flex-row">
+        <svg-icon
+          class="prestige-border"
+          src="assets/icons/resources/coin.svg"
+        />
+        <p class="available-points-text">
+          {{ currentPrestigeBorder$ | async }}
+        </p>
+      </div>
+
+      <div class="flex-row">
+        <p class="f-big">Current money: {{ currentMoney$ | async }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="info flex-column">
+    <p class="f-big">
+      You can reset almost everything you have to get special
+      <i>Prestige Points</i>
+      (PP).
+    </p>
+
+    <p class="f-big">
+      This points help you progress faster and you can achieve old result faster
+      then before prestige and also get further and gain more PP on another
+      prestige
+    </p>
+
+    <p class="warning f-big">
+      WARNING! Ypu will lose all your money, crystals, rubies and not resetless
+      upgrades (some unlocks, for example)
+    </p>
+  </div>
+
+  <div class="reset-button-wrapper flex-column">
+    <button
+      class="reset-button"
+      [class.selected]="prestigeButtonSelected()"
+      (click)="prestigeButtonSelected.set(!prestigeButtonSelected())"
+    >
+      <p class="f-big">Prestige</p>
+    </button>
+
+    @if (prestigeButtonSelected()) {
+      <p class="f-big">Are you sure?</p>
+
+      <div class="confirmation-buttons flex-row">
+        <button class="confirmation-button" (click)="prestige()">
+          <p class="f-big">Yes</p>
+        </button>
+        <button
+          class="confirmation-button"
+          (click)="prestigeButtonSelected.set(false)"
+        >
+          <p class="warning f-big">No</p>
+        </button>
+      </div>
+    }
+  </div>
+</section>

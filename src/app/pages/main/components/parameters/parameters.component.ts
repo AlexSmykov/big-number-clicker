@@ -2,15 +2,14 @@ import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
-import { ParametersService } from 'src/app/core/parameters/parameters.service';
-import { UpgradeService } from 'src/app/core/upgrades/upgrade.service';
 import { PARAMETERS_START_CONFIG } from 'src/app/core/parameters/parameters.const';
 import {
   isBigNumber,
   isNumber,
 } from 'src/app/core/models/big-number/big-number.guard';
+import { AllInfoService } from 'src/app/core/all-info/all-info.service';
 
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -21,25 +20,19 @@ import { map, tap } from 'rxjs';
   imports: [AsyncPipe],
 })
 export default class ParametersComponent {
-  private readonly parametersService = inject(ParametersService);
-  private readonly upgradeService = inject(UpgradeService);
+  private readonly allInfoService = inject(AllInfoService);
 
-  parameters$ = this.parametersService.getAllParameters$().pipe(
-    tap((x) => {
-      console.log(x);
-    })
-  );
-  upgrades$ = this.upgradeService.getAllUpgrades$();
+  readonly allInfo$ = this.allInfoService.allInfoObject$;
 
-  parametersKeys$ = this.parameters$.pipe(
-    map((parameters) =>
+  readonly parametersKeys$ = this.allInfoService.allInfo$.pipe(
+    map(([_, parameters]) =>
       parameters
         ? (Object.keys(parameters) as (keyof typeof PARAMETERS_START_CONFIG)[])
         : []
     )
   );
 
-  protected readonly PARAMETERS_START_CONFIG = PARAMETERS_START_CONFIG;
-  protected readonly isBigNumber = isBigNumber;
-  protected readonly isNumber = isNumber;
+  readonly PARAMETERS_START_CONFIG = PARAMETERS_START_CONFIG;
+  readonly isBigNumber = isBigNumber;
+  readonly isNumber = isNumber;
 }

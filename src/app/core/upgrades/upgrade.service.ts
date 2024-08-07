@@ -7,7 +7,7 @@ import {
   UPGRADE_COST_GROW_FORMULAS,
   UPGRADES_START_CONFIG,
 } from 'src/app/core/upgrades/upgrade.const';
-import { EUpgrades } from 'src/app/core/upgrades/upgrade.enum';
+import { EUpgradeBuyType, EUpgrades } from 'src/app/core/upgrades/upgrade.enum';
 import { isExhausted, parseLoadedValue } from 'src/app/core/utils/core.utils';
 import { TSavedValue } from 'src/app/core/interfaces/core.interface';
 import { ParametersService } from 'src/app/core/parameters/parameters.service';
@@ -31,6 +31,10 @@ export class UpgradeService {
 
   constructor() {
     this.loadUpgrades();
+  }
+
+  updateValues(): void {
+    this._upgrades$.next(this._upgrades$.getValue());
   }
 
   private loadUpgrades(): void {
@@ -201,7 +205,7 @@ export class UpgradeService {
 
           case EUpgrades.SIMPLE_MULTIPLIER_POWER:
             parameters.simpleMultiplierPower.value.plus(
-              parameters.simpleMultiplierCoefficientIncrease.value
+              parameters.simpleMultiplierPowerCoefficient.value
             );
             break;
 
@@ -241,6 +245,7 @@ export class UpgradeService {
         }
 
         this.parametersService.setParameters(parameters);
+        this._upgrades$.next(upgrades);
       });
   }
 
@@ -262,5 +267,29 @@ export class UpgradeService {
     costs.forEach((cost) =>
       UPGRADE_COST_GROW_FORMULAS[cost.growthFormula](cost, upgrade.count)
     );
+  }
+
+  resetUpgrade(upgradeKey: EUpgrades): void {
+    this.getAllUpgrades$()
+      .pipe(take(1))
+      .subscribe((upgrades) => {
+        const upgrade = upgrades[upgradeKey];
+        switch (upgrade.buyType) {
+          case EUpgradeBuyType.ENDLESS:
+          case EUpgradeBuyType.WITH_COUNT:
+            upgrade.currentCap = 0;
+            upgrade.count = 0;
+            upgrade.caps.forEach((cap) => {
+              cap.costs.forEach((cost) => {
+                cost.cost = cost.startCost.copy();
+              });
+            });
+            break;
+
+          case EUpgradeBuyType.ONE_TIME:
+            upgrade.bought = false;
+            break;
+        }
+      });
   }
 }
