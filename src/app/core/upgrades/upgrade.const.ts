@@ -88,6 +88,42 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
           },
         ],
       },
+      {
+        startAtCount: 500,
+        costs: [
+          {
+            startCost: new BigNumber(150, 1),
+            cost: new BigNumber(150, 1),
+            resourceType: EResources.MONEY,
+            growthFormula: EUpgradeCostGrowth.MULTIPLY,
+            growthRate: new BigNumber(20),
+          },
+        ],
+      },
+      {
+        startAtCount: 1024,
+        costs: [
+          {
+            startCost: new BigNumber(800, 1),
+            cost: new BigNumber(800, 1),
+            resourceType: EResources.MONEY,
+            growthFormula: EUpgradeCostGrowth.MULTIPLY,
+            growthRate: new BigNumber(50, 1),
+          },
+        ],
+      },
+      {
+        startAtCount: 2000,
+        costs: [
+          {
+            startCost: new BigNumber(50000, 1),
+            cost: new BigNumber(50000, 1),
+            resourceType: EResources.MONEY,
+            growthFormula: EUpgradeCostGrowth.POWER,
+            growthRate: new BigNumber(1.05),
+          },
+        ],
+      },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
       return `Simple multiplier: ${parameters.simpleMultiplier.value} -> ${parameters.simpleMultiplier.value.copy().plus(parameters.simpleMultiplierCoefficient.value)}`;
@@ -113,6 +149,42 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
             resourceType: EResources.MONEY,
             growthFormula: EUpgradeCostGrowth.MULTIPLY,
             growthRate: new BigNumber(10),
+          },
+        ],
+      },
+      {
+        startAtCount: 95,
+        costs: [
+          {
+            startCost: new BigNumber(100, 1),
+            cost: new BigNumber(100, 1),
+            resourceType: EResources.MONEY,
+            growthFormula: EUpgradeCostGrowth.MULTIPLY_BY_COUNT,
+            growthRate: new BigNumber(10),
+          },
+        ],
+      },
+      {
+        startAtCount: 250,
+        costs: [
+          {
+            startCost: new BigNumber(1000, 1),
+            cost: new BigNumber(1000, 1),
+            resourceType: EResources.MONEY,
+            growthFormula: EUpgradeCostGrowth.MULTIPLY_BY_COUNT,
+            growthRate: new BigNumber(10, 1),
+          },
+        ],
+      },
+      {
+        startAtCount: 1000,
+        costs: [
+          {
+            startCost: new BigNumber(50000, 1),
+            cost: new BigNumber(50000, 1),
+            resourceType: EResources.MONEY,
+            growthFormula: EUpgradeCostGrowth.POWER,
+            growthRate: new BigNumber(1.1),
           },
         ],
       },
@@ -156,6 +228,32 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
             resourceType: EResources.CRYSTAL,
             growthFormula: EUpgradeCostGrowth.PLUS,
             growthRate: new BigNumber(25),
+          },
+          {
+            startCost: new BigNumber(1),
+            cost: new BigNumber(1),
+            resourceType: EResources.PRESTIGE_POINT,
+            growthFormula: EUpgradeCostGrowth.PLUS,
+            growthRate: new BigNumber(1),
+          },
+        ],
+      },
+      {
+        startAtCount: 40,
+        costs: [
+          {
+            startCost: new BigNumber(50),
+            cost: new BigNumber(50),
+            resourceType: EResources.CRYSTAL,
+            growthFormula: EUpgradeCostGrowth.PLUS,
+            growthRate: new BigNumber(25),
+          },
+          {
+            startCost: new BigNumber(30),
+            cost: new BigNumber(30),
+            resourceType: EResources.PRESTIGE_POINT,
+            growthFormula: EUpgradeCostGrowth.PLUS,
+            growthRate: new BigNumber(5),
           },
           {
             startCost: new BigNumber(1),
@@ -283,6 +381,30 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
           },
         ],
       },
+      {
+        startAtCount: 128,
+        costs: [
+          {
+            startCost: new BigNumber(128),
+            cost: new BigNumber(128),
+            resourceType: EResources.CRYSTAL,
+            growthFormula: EUpgradeCostGrowth.PLUS,
+            growthRate: new BigNumber(4),
+          },
+        ],
+      },
+      {
+        startAtCount: 512,
+        costs: [
+          {
+            startCost: new BigNumber(2000),
+            cost: new BigNumber(2000),
+            resourceType: EResources.CRYSTAL,
+            growthFormula: EUpgradeCostGrowth.PLUS,
+            growthRate: new BigNumber(100),
+          },
+        ],
+      },
     ],
     createTooltip: (parameters: TParameters): string | undefined => {
       return `Crystal multiplier: ${parameters.crystalMultiplier.value} -> ${parameters.crystalMultiplier.value.copy().multiply(parameters.crystalMultiplierCoefficient.value)}`;
@@ -343,8 +465,20 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
             startCost: new BigNumber(5),
             cost: new BigNumber(5),
             resourceType: EResources.PRESTIGE_POINT,
+            growthFormula: EUpgradeCostGrowth.PLUS,
+            growthRate: new BigNumber(10),
+          },
+        ],
+      },
+      {
+        startAtCount: 50,
+        costs: [
+          {
+            startCost: new BigNumber(500),
+            cost: new BigNumber(500),
+            resourceType: EResources.PRESTIGE_POINT,
             growthFormula: EUpgradeCostGrowth.MULTIPLY,
-            growthRate: new BigNumber(2),
+            growthRate: new BigNumber(1.1),
           },
         ],
       },

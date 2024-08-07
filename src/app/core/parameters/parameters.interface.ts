@@ -5,8 +5,10 @@ export type TParameters = {
 
   baseMoneyRate: TParametersValue<BigNumber>;
   baseCrystalRate: TParametersValue<BigNumber>;
+  baseCrystalChanceRate: TParametersValue<number>;
   basePrestigeRate: TParametersValue<BigNumber>;
   baseRubyRate: TParametersValue<BigNumber>;
+  baseRubyChanceRate: TParametersValue<number>;
 
   flatBonus: TParametersValue<BigNumber>;
   flatBonusUpgrade1: TParametersValue<BigNumber>;
@@ -40,6 +42,8 @@ export type TParameters = {
   logMultiplierPowerIncrease: TParametersValue<BigNumber>;
 
   prestigeBorder: TParametersValue<BigNumber>;
+  prestigeBorderGrowth: TParametersValue<BigNumber>;
+  prestigeBorderGrowthCoefficient: TParametersValue<BigNumber>;
   prestigeBorderDecrease: TParametersValue<BigNumber>;
   prestigePointsGainCoefficient: TParametersValue<BigNumber>;
   prestigeMultiplier: TParametersValue<BigNumber>;
@@ -51,4 +55,5 @@ export type TParametersValue<T> = {
   isVisible: boolean;
   value: T;
   isPercent: boolean;
+  isResetOnPrestige: boolean;
 };
