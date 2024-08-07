@@ -16,6 +16,14 @@ export class BigNumber {
   }
 
   private updateDegree(): void {
+    if (
+      isNaN(this.currentValue) ||
+      this.currentValue === Infinity ||
+      this.currentValue === -Infinity
+    ) {
+      this.currentValue = 0;
+    }
+
     if (this.currentValue === 0 && this.depth !== 0) {
       this.depth = 0;
     }
@@ -72,7 +80,8 @@ export class BigNumber {
           this.currentValue - anotherNumber.currentValue
         );
         if (powerDiff <= 10) {
-          this.currentValue += Math.log10(1 + Math.pow(10, powerDiff));
+          this.currentValue +=
+            Math.log10(1 + Math.pow(10, powerDiff)) / Math.pow(10, powerDiff);
         } else {
           this.currentValue = Math.max(
             this.currentValue,
@@ -366,7 +375,7 @@ export class BigNumber {
 
   toString(): string {
     return `${'e'.repeat(this.depth)!}${
-      this.currentValue >= 1e12
+      this.currentValue >= 1e9
         ? (+this.currentValue.toExponential(3)).toExponential().replace('+', '')
         : (+this.currentValue.toFixed(3)).toPrecision()
     }`;
