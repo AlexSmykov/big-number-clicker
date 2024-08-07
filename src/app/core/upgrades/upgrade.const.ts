@@ -630,7 +630,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     isResetOnPrestige: false,
     costs: [
       {
-        cost: new BigNumber(1500),
+        cost: new BigNumber(1000),
         resourceType: EResources.MONEY,
       },
     ],
@@ -649,11 +649,11 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
     isResetOnPrestige: false,
     costs: [
       {
-        cost: new BigNumber(5000),
+        cost: new BigNumber(15000),
         resourceType: EResources.MONEY,
       },
       {
-        cost: new BigNumber(4),
+        cost: new BigNumber(1),
         resourceType: EResources.CRYSTAL,
       },
     ],
@@ -677,7 +677,7 @@ export const UPGRADES_START_CONFIG: Record<EUpgrades, TUpgrade> = {
         resourceType: EResources.MONEY,
       },
       {
-        cost: new BigNumber(15),
+        cost: new BigNumber(10),
         resourceType: EResources.CRYSTAL,
       },
     ],
