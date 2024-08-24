@@ -256,7 +256,7 @@ export class BigNumber {
     }
     anotherNumber = anotherNumber.copy();
 
-    if (anotherNumber.currentValue === 1) {
+    if (anotherNumber.currentValue === 1 || this.currentValue === 1) {
       return this;
     }
 
@@ -377,7 +377,7 @@ export class BigNumber {
     return `${'e'.repeat(this.depth)!}${
       this.currentValue >= 1e9
         ? (+this.currentValue.toExponential(3)).toExponential().replace('+', '')
-        : (+this.currentValue.toFixed(3)).toPrecision()
+        : (+(+this.currentValue.toPrecision(9)).toFixed(3)).toPrecision()
     }`;
   }
 }

@@ -20,20 +20,28 @@ export type TParameters = {
   simpleMultiplierIncrease: TParametersValue<BigNumber>;
   simpleMultiplierCoefficient: TParametersValue<BigNumber>;
   simpleMultiplierCoefficientIncrease: TParametersValue<BigNumber>;
+  simpleMultiplierBuyBonus: TParametersValue<BigNumber>;
   simpleMultiplierPower: TParametersValue<BigNumber>;
   simpleMultiplierPowerCoefficient: TParametersValue<BigNumber>;
+
+  permanentSimpleMultiplier: TParametersValue<BigNumber>;
+  permanentSimpleMultiplierCoefficient: TParametersValue<BigNumber>;
 
   crystalChance: TParametersValue<number>;
   crystalChanceIncrease: TParametersValue<number>;
   crystalChanceOnPrestige: TParametersValue<number>;
   crystalChanceOnPrestigeCoefficient: TParametersValue<number>;
+  crystalChanceOnPrestigeCoefficientIncrease: TParametersValue<number>;
   crystalChanceMoneyIncrease: TParametersValue<number>;
+  crystalChanceByPrestige: TParametersValue<number>;
+  crystalChanceByPrestigeCoefficient: TParametersValue<number>;
   crystalMultiplier: TParametersValue<BigNumber>;
   crystalMultiplierCoefficient: TParametersValue<BigNumber>;
   crystalMultiplierCoefficientIncrease: TParametersValue<BigNumber>;
   crystalGainMultiplier: TParametersValue<BigNumber>;
 
   rubyChance: TParametersValue<number>;
+  rubyChanceCoefficient: TParametersValue<number>;
   rubyCristalGainMultiplier: TParametersValue<BigNumber>;
 
   logMultiplierBase: TParametersValue<number>;
@@ -45,9 +53,14 @@ export type TParameters = {
   prestigeBorderGrowth: TParametersValue<BigNumber>;
   prestigeBorderGrowthCoefficient: TParametersValue<BigNumber>;
   prestigeBorderDecrease: TParametersValue<BigNumber>;
-  prestigePointsGainCoefficient: TParametersValue<BigNumber>;
+  prestigeBorderDecreaseCoefficient: TParametersValue<BigNumber>;
+  prestigePointsGainPower: TParametersValue<BigNumber>;
+  prestigePointsGainPowerCoefficient: TParametersValue<BigNumber>;
   prestigeMultiplier: TParametersValue<BigNumber>;
   prestigeMultiplierCoefficient: TParametersValue<BigNumber>;
+
+  oneTimeMultiplier: TParametersValue<BigNumber>;
+  oneTimeMultiplierBonus1: TParametersValue<BigNumber>;
 };
 
 export type TParametersValue<T> = {

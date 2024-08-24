@@ -14,8 +14,9 @@ import { ParametersService } from 'src/app/core/parameters/parameters.service';
 import { UnlocksService } from 'src/app/core/unlocks/unlocks.service';
 import { isOneTimeUpgrade } from 'src/app/core/upgrades/upgrade.utils';
 import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
+import { TParameters } from 'src/app/core/parameters/parameters.interface';
 
-import { BehaviorSubject, map, Observable, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UpgradeService {
@@ -89,10 +90,12 @@ export class UpgradeService {
   }
 
   upgrade(upgradeKey: EUpgrades) {
-    this.parametersService
-      .getAllParameters$()
+    combineLatest([
+      this.parametersService.getAllParameters$(),
+      this.unlocksService.getAllUnlocks$(),
+    ])
       .pipe(take(1))
-      .subscribe((parameters) => {
+      .subscribe(([parameters, unlocks]) => {
         const upgrades = this._upgrades$.getValue();
         const upgrade = upgrades[upgradeKey];
         this.updateCosts(upgrade);
@@ -106,6 +109,7 @@ export class UpgradeService {
             parameters.simpleMultiplier.value.plus(
               parameters.simpleMultiplierCoefficient.value
             );
+
             break;
 
           case EUpgrades.SIMPLE_MULTIPLIER_BOOST:
@@ -115,6 +119,12 @@ export class UpgradeService {
             parameters.simpleMultiplierCoefficient.value.multiply(
               parameters.simpleMultiplierCoefficientIncrease.value
             );
+
+            if (unlocks.SIMPLE_MULTIPLIER_BUY_BONUS) {
+              parameters.simpleMultiplierCoefficientIncrease.value.plus(
+                parameters.simpleMultiplierBuyBonus.value
+              );
+            }
             break;
 
           case EUpgrades.CRYSTAL_CHANCE:
@@ -129,10 +139,11 @@ export class UpgradeService {
             break;
 
           case EUpgrades.LOG_MULTIPLIER_BASE:
-            parameters.logMultiplierBase.value =
+            parameters.logMultiplierBase.value = +(
               (parameters.logMultiplierBase.value - 1) /
                 parameters.logMultiplierBaseDecrease.value +
-              1;
+              1
+            ).toPrecision(4);
             break;
 
           case EUpgrades.LOG_MULTIPLIER_POWER:
@@ -176,10 +187,14 @@ export class UpgradeService {
             parameters.clickButtonText.value = 'Now you can reset';
 
             upgrades[EUpgrades.PRESTIGE_MULTIPLIER].isUnlocked = true;
+
             upgrades[EUpgrades.SIMPLE_MULTIPLIER_POWER].isUnlocked = true;
             upgrades[EUpgrades.START_FLAT_BONUS].isUnlocked = true;
             upgrades[EUpgrades.UNLOCK_RUBIES].isUnlocked = true;
             upgrades[EUpgrades.UNLOCK_MORE_UPGRADES_1].isUnlocked = true;
+            upgrades[EUpgrades.PRESTIGE_BORDER_DECREASE].isUnlocked = true;
+            upgrades[EUpgrades.CRYSTAL_CHANCE_BY_PRESTIGE_POINTS].isUnlocked =
+              true;
 
             break;
 
@@ -190,15 +205,16 @@ export class UpgradeService {
             upgrades[EUpgrades.MULTIPLY_CRYSTAL_GAIN].isUnlocked = true;
             upgrades[EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT].isUnlocked =
               true;
+            upgrades[EUpgrades.PRESTIGE_POINTS_GAIN].isUnlocked = true;
+            upgrades[EUpgrades.RUBY_BASED_MULTIPLIER].isUnlocked = true;
+            upgrades[EUpgrades.UNLOCK_PERMANENT_SIMPLE_MULTIPLIER].isUnlocked =
+              true;
+            upgrades[EUpgrades.RUBY_CHANCE_INCREASE].isUnlocked = true;
 
-            break;
-
-          case EUpgrades.FLAT_BONUS:
-            parameters.flatBonus.value.plus(parameters.flatBonusUpgrade1.value);
             break;
 
           case EUpgrades.CRYSTAL_MULTIPLIER_COEFFICIENT:
-            parameters.crystalMultiplierCoefficient.value.plus(
+            parameters.crystalMultiplierCoefficient.value.multiply(
               parameters.crystalMultiplierCoefficientIncrease.value
             );
             break;
@@ -215,9 +231,15 @@ export class UpgradeService {
             break;
 
           case EUpgrades.START_FLAT_BONUS:
-            parameters.flatBonusStart.value.plus(
-              parameters.flatBonusStartCoefficient.value
-            );
+            if (parameters.flatBonusStart.value.isEqual(0)) {
+              parameters.flatBonusStart.value.plus(
+                parameters.flatBonusStartCoefficient.value
+              );
+            } else {
+              parameters.flatBonusStart.value.multiply(
+                parameters.flatBonusStartCoefficient.value
+              );
+            }
             break;
 
           case EUpgrades.MULTIPLY_CRYSTAL_GAIN:
@@ -227,7 +249,7 @@ export class UpgradeService {
             break;
 
           case EUpgrades.PRESTIGE_MULTIPLIER:
-            parameters.prestigeMultiplier.value.plus(
+            parameters.prestigeMultiplier.value.multiply(
               parameters.prestigeMultiplierCoefficient.value
             );
             break;
@@ -235,9 +257,73 @@ export class UpgradeService {
           case EUpgrades.UNLOCK_MORE_UPGRADES_1:
             this.unlocksService.setLock(true, EUnlocks.MORE_UPGRADES_1);
 
-            upgrades[EUpgrades.FLAT_BONUS].isUnlocked = true;
             upgrades[EUpgrades.CRYSTAL_CHANCE_ON_PRESTIGE].isUnlocked = true;
             upgrades[EUpgrades.CRYSTAL_CHANCE_BY_MONEY].isUnlocked = true;
+            upgrades[EUpgrades.ANOTHER_MULTIPLIER_1].isUnlocked = true;
+            upgrades[EUpgrades.SIMPLE_MULTIPLIER_BUY_BONUS].isUnlocked = true;
+            break;
+
+          case EUpgrades.PRESTIGE_BORDER_DECREASE:
+            parameters.prestigeBorderDecrease.value.divide(
+              parameters.prestigeBorderDecreaseCoefficient.value
+            );
+            break;
+
+          case EUpgrades.PRESTIGE_POINTS_GAIN:
+            parameters.prestigePointsGainPower.value.plus(
+              parameters.prestigePointsGainPowerCoefficient.value
+            );
+            break;
+
+          case EUpgrades.RUBY_BASED_MULTIPLIER:
+            this.unlocksService.setLock(true, EUnlocks.RUBY_BASED_MULTIPLIER);
+            break;
+
+          case EUpgrades.UNLOCK_PERMANENT_SIMPLE_MULTIPLIER:
+            this.unlocksService.setLock(
+              true,
+              EUnlocks.PERMANENT_SIMPLE_MULTIPLIER
+            );
+            break;
+
+          case EUpgrades.PERMANENT_SIMPLE_MULTIPLIER:
+            parameters.permanentSimpleMultiplier.value.multiply(
+              parameters.permanentSimpleMultiplierCoefficient.value
+            );
+            break;
+
+          case EUpgrades.SIMPLE_MULTIPLIER_BUY_BONUS:
+            this.unlocksService.setLock(
+              true,
+              EUnlocks.SIMPLE_MULTIPLIER_BUY_BONUS
+            );
+            upgrades.SIMPLE_MULTIPLIER_BOOST.createTooltip = (
+              parameters: TParameters
+            ): string | undefined => {
+              return `
+              Simple multiplier:
+              ${parameters.simpleMultiplier.value} -> ${parameters.simpleMultiplier.value.copy().multiply(parameters.simpleMultiplierIncrease.value)};
+              Simple multiplier increase:
+              ${parameters.simpleMultiplierCoefficient.value} -> ${parameters.simpleMultiplierCoefficient.value.copy().multiply(parameters.simpleMultiplierCoefficientIncrease.value)};
+              Simple multiplier increase coefficient:
+              ${parameters.simpleMultiplierCoefficientIncrease.value} -> ${parameters.simpleMultiplierCoefficientIncrease.value.copy().plus(parameters.simpleMultiplierBuyBonus.value)}`;
+            };
+            break;
+
+          case EUpgrades.ANOTHER_MULTIPLIER_1:
+            parameters.oneTimeMultiplier.value.multiply(
+              parameters.oneTimeMultiplierBonus1.value
+            );
+            break;
+
+          case EUpgrades.CRYSTAL_CHANCE_BY_PRESTIGE_POINTS:
+            parameters.crystalChanceByPrestige.value +=
+              parameters.crystalChanceByPrestigeCoefficient.value;
+            break;
+
+          case EUpgrades.RUBY_CHANCE_INCREASE:
+            parameters.rubyChance.value +=
+              parameters.rubyChanceCoefficient.value;
             break;
 
           default:

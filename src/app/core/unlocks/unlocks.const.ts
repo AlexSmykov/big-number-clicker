@@ -9,4 +9,7 @@ export const UNLOCKS_START_CONFIG: TUnlocks = {
   [EUnlocks.SETTINGS_AND_ABOUT]: false,
   [EUnlocks.MORE_UPGRADES_1]: false,
   [EUnlocks.FLAT_BONUS_1]: false,
+  [EUnlocks.RUBY_BASED_MULTIPLIER]: false,
+  [EUnlocks.PERMANENT_SIMPLE_MULTIPLIER]: false,
+  [EUnlocks.SIMPLE_MULTIPLIER_BUY_BONUS]: false,
 };
