@@ -7,7 +7,7 @@ export const PARAMETERS_START_CONFIG: TParameters = {
     isVisible: false,
     value: 'Click me!',
     isPercent: false,
-    isResetOnPrestige: true,
+    isResetOnPrestige: false,
   },
 
   baseMoneyRate: {
@@ -63,7 +63,7 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   flatBonusUpgrade1: {
     name: '',
     isVisible: false,
-    value: new BigNumber(1000),
+    value: new BigNumber(1000000),
     isPercent: false,
     isResetOnPrestige: true,
   },
@@ -84,7 +84,7 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   flatBonusStartCoefficient: {
     name: '',
     isVisible: false,
-    value: new BigNumber(10),
+    value: new BigNumber(100),
     isPercent: false,
     isResetOnPrestige: false,
   },
@@ -117,19 +117,41 @@ export const PARAMETERS_START_CONFIG: TParameters = {
     isPercent: false,
     isResetOnPrestige: true,
   },
+  simpleMultiplierBuyBonus: {
+    name: '',
+    isVisible: false,
+    value: new BigNumber(0.1),
+    isPercent: false,
+    isResetOnPrestige: false,
+  },
   simpleMultiplierPower: {
     name: 'Simple multiplier power',
     isVisible: true,
     value: new BigNumber(1),
     isPercent: false,
-    isResetOnPrestige: true,
+    isResetOnPrestige: false,
   },
   simpleMultiplierPowerCoefficient: {
     name: '',
     isVisible: false,
     value: new BigNumber(0.1),
     isPercent: false,
-    isResetOnPrestige: true,
+    isResetOnPrestige: false,
+  },
+
+  permanentSimpleMultiplier: {
+    name: 'Permanent simple multiplier',
+    isVisible: true,
+    value: new BigNumber(1),
+    isPercent: false,
+    isResetOnPrestige: false,
+  },
+  permanentSimpleMultiplierCoefficient: {
+    name: '',
+    isVisible: false,
+    value: new BigNumber(1.1),
+    isPercent: false,
+    isResetOnPrestige: false,
   },
 
   crystalChance: {
@@ -142,7 +164,7 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   crystalChanceIncrease: {
     name: '',
     isVisible: false,
-    value: 15,
+    value: 20,
     isPercent: true,
     isResetOnPrestige: true,
   },
@@ -154,16 +176,37 @@ export const PARAMETERS_START_CONFIG: TParameters = {
     isResetOnPrestige: true,
   },
   crystalChanceOnPrestige: {
-    name: 'Crystal chance from prestige',
+    name: 'Crystal chance from all prestige',
     isVisible: true,
     value: 0,
     isPercent: true,
     isResetOnPrestige: false,
   },
   crystalChanceOnPrestigeCoefficient: {
+    name: 'Crystal chance on prestige',
+    isVisible: false,
+    value: 100,
+    isPercent: true,
+    isResetOnPrestige: false,
+  },
+  crystalChanceOnPrestigeCoefficientIncrease: {
     name: '',
     isVisible: false,
+    value: 100,
+    isPercent: true,
+    isResetOnPrestige: false,
+  },
+  crystalChanceByPrestige: {
+    name: 'Crystal chance by prestige points',
+    isVisible: true,
     value: 0,
+    isPercent: true,
+    isResetOnPrestige: false,
+  },
+  crystalChanceByPrestigeCoefficient: {
+    name: '',
+    isVisible: false,
+    value: 100,
     isPercent: true,
     isResetOnPrestige: false,
   },
@@ -193,7 +236,7 @@ export const PARAMETERS_START_CONFIG: TParameters = {
     isVisible: true,
     value: new BigNumber(1),
     isPercent: false,
-    isResetOnPrestige: true,
+    isResetOnPrestige: false,
   },
 
   rubyChance: {
@@ -201,7 +244,14 @@ export const PARAMETERS_START_CONFIG: TParameters = {
     isVisible: true,
     value: 10,
     isPercent: true,
-    isResetOnPrestige: true,
+    isResetOnPrestige: false,
+  },
+  rubyChanceCoefficient: {
+    name: '',
+    isVisible: false,
+    value: 2,
+    isPercent: true,
+    isResetOnPrestige: false,
   },
   rubyCristalGainMultiplier: {
     name: '',
@@ -243,7 +293,7 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   prestigeBorder: {
     name: 'Current prestige border',
     isVisible: true,
-    value: new BigNumber(10000000),
+    value: new BigNumber(100000000),
     isPercent: false,
     isResetOnPrestige: true,
   },
@@ -257,21 +307,35 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   prestigeBorderGrowthCoefficient: {
     name: '',
     isVisible: false,
-    value: new BigNumber(1.2),
+    value: new BigNumber(1.4),
     isPercent: false,
     isResetOnPrestige: false,
   },
   prestigeBorderDecrease: {
     name: 'Prestige border decreasing',
     isVisible: true,
-    value: new BigNumber(0.9),
+    value: new BigNumber(1),
     isPercent: false,
     isResetOnPrestige: true,
   },
-  prestigePointsGainCoefficient: {
+  prestigeBorderDecreaseCoefficient: {
+    name: '',
+    isVisible: false,
+    value: new BigNumber(1.1),
+    isPercent: false,
+    isResetOnPrestige: false,
+  },
+  prestigePointsGainPower: {
     name: 'Prestige point gain coefficient',
     isVisible: true,
     value: new BigNumber(1),
+    isPercent: false,
+    isResetOnPrestige: false,
+  },
+  prestigePointsGainPowerCoefficient: {
+    name: '',
+    isVisible: false,
+    value: new BigNumber(0.1),
     isPercent: false,
     isResetOnPrestige: false,
   },
@@ -285,7 +349,22 @@ export const PARAMETERS_START_CONFIG: TParameters = {
   prestigeMultiplierCoefficient: {
     name: '',
     isVisible: false,
+    value: new BigNumber(5),
+    isPercent: false,
+    isResetOnPrestige: false,
+  },
+
+  oneTimeMultiplier: {
+    name: 'Another multiplier',
+    isVisible: true,
     value: new BigNumber(1),
+    isPercent: false,
+    isResetOnPrestige: false,
+  },
+  oneTimeMultiplierBonus1: {
+    name: '',
+    isVisible: false,
+    value: new BigNumber(50),
     isPercent: false,
     isResetOnPrestige: false,
   },
