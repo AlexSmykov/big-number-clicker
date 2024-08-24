@@ -4,12 +4,19 @@
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: stretch;
 
   background: var(--dark);
   box-shadow: 5px 0 10px var(--darker);
   position: relative;
   z-index: 1;
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
 
   &__button {
     height: 100px;
@@ -42,4 +49,18 @@
       color: var(--dark);
     }
   }
+}
+
+.reset-button {
+  padding: 10px;
+  margin: 10px;
+
+  border-radius: 8px;
+
+  background: var(--dark-gray);
+  outline: none;
+  border: 2px solid var(--warning-color);
+  color: var(--warning-color);
+
+  font-weight: 700;
 }

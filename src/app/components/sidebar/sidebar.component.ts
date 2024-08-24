@@ -10,6 +10,7 @@ import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 import { EPages } from 'src/app/components/sidebar/sidebar.enum';
 import { EUnlocks } from 'src/app/core/unlocks/unlocks.enum';
 import { AllInfoService } from 'src/app/core/all-info/all-info.service';
+import { LocalStorageService } from 'src/app/core/storage/local-storage.service';
 
 import { filter, map } from 'rxjs';
 
@@ -22,6 +23,7 @@ import { filter, map } from 'rxjs';
 })
 export default class SidebarComponent {
   private readonly router = inject(Router);
+  private readonly localStorageService = inject(LocalStorageService);
 
   private readonly AllInfoService = inject(AllInfoService);
 
@@ -37,4 +39,10 @@ export default class SidebarComponent {
   readonly EFullRoutes = EFullRoutes;
   readonly EPages = EPages;
   readonly EUnlocks = EUnlocks;
+  protected readonly Math = Math;
+
+  resetGame(): void {
+    this.localStorageService.clear();
+    location.reload();
+  }
 }
