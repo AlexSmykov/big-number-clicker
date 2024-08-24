@@ -77,6 +77,9 @@
   <p class="tooltip-tier" [style.color]="TIER_COLORS[upgrade().tier]">
     {{ EUpgradeTierNames[upgrade().tier] }}
   </p>
+  @if (!upgrade().isResetOnPrestige) {
+    <p class="tooltip-resetless">Keep on Prestige</p>
+  }
   @if (tooltipText(); as tooltipText) {
     <p class="tooltip-text f-normal">{{ tooltipText }}</p>
   }

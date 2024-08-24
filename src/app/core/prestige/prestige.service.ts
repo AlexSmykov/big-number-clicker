@@ -25,7 +25,7 @@ export class PrestigeService {
       map(([_, parameters, resources]) => {
         return resources.MONEY.copy()
           .log10()
-          .pow(parameters.prestigePointsGainCoefficient.value);
+          .pow(parameters.prestigePointsGainPower.value);
       })
     );
   }
@@ -54,7 +54,10 @@ export class PrestigeService {
     this.allInfoService.allInfo$
       .pipe(combineLatestWith(this.availablePrestigePointOnPrestige$), take(1))
       .subscribe(
-        ([[_, parameters, resources, __], availablePrestigePoints]) => {
+        ([
+          [upgrades, parameters, resources, unlocks],
+          availablePrestigePoints,
+        ]) => {
           resources.PRESTIGE_POINT.plus(availablePrestigePoints);
           resources.MONEY = new BigNumber(0);
           resources.CRYSTAL = new BigNumber(0);
@@ -78,12 +81,17 @@ export class PrestigeService {
 
           parameters.crystalChanceOnPrestige.value +=
             parameters.crystalChanceOnPrestigeCoefficient.value;
-          parameters.crystalChance.value +=
-            parameters.crystalChanceOnPrestige.value;
+          parameters.crystalChanceOnPrestigeCoefficient.value +=
+            parameters.crystalChanceOnPrestigeCoefficientIncrease.value;
 
           parameters.prestigeBorderGrowth.value.multiply(
             parameters.prestigeBorderGrowthCoefficient.value
           );
+          ``;
+
+          unlocks.LOG_MULTIPLIER = false;
+          upgrades.LOG_MULTIPLIER_POWER.isUnlocked = false;
+          upgrades.LOG_MULTIPLIER_BASE.isUnlocked = false;
 
           this.isPrestige$.next();
           this.allInfoService.updateAll();

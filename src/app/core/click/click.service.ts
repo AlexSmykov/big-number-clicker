@@ -69,6 +69,10 @@ export class ClickService {
           );
         }
 
+        if (unlocks.RUBY_BASED_MULTIPLIER) {
+          baseValue.multiply(resources.RUBY.copy().plus(1));
+        }
+
         baseValue.plus(parameters.flatBonus.value);
         baseValue.plus(parameters.flatBonusStart.value);
 
@@ -87,7 +91,8 @@ export class ClickService {
         // Crystals
         if (unlocks.CRYSTALS) {
           const rolledCrystals = rollChanceMultiple(
-            parameters.crystalChance.value *
+            (parameters.crystalChance.value +
+              parameters.crystalChanceByPrestige.value) *
               parameters.baseCrystalChanceRate.value
           );
 
